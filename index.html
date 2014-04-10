@@ -10,7 +10,7 @@
     <link rel="apple-touch-startup-image" href="images/apple-touch-startup-image-320x460.png"/>
     <meta name="keywords"
           content="mobile web app, mobile template, mobile design, mobile app design, mobile app theme, mobile wordpress theme, my mobile app"/>
-    <title>GoMobile - A next generation web app theme</title>
+    <title>LogBook ***GaMe TeAM***</title>
     <link type="text/css" rel="stylesheet" href="css/style.css"/>
     <link type="text/css" rel="stylesheet" href="colors/metro/metro.css"/>
     <link type="text/css" rel="stylesheet" href="css/idangerous.swiper.css"/>
@@ -31,7 +31,7 @@
         <div class="swiper-wrapper">
             <div class="swiper-slide">
                 <div class="slide-inner">
-                    <div class="logo"><a href="#">LBN</a></div>
+                    <div class="logo"><a href="#">My Logbook</a></div>
                     <div class="menu">
                         <ul>
                             <li class="green"><a href="#" onclick="swiperParent.swipeTo(1);"><img
@@ -46,8 +46,8 @@
                             <li class="purple"><a href="#" onclick="swiperParent.swipeTo(6);"><img
                                     src="images/icons/blog.png" alt="" title=""/><span>Asistan Operasyonları</span></a>
                             </li>
-                            <li class="yellow"><a href="#" onclick="swiperParent.swipeTo(8);"><img
-                                    src="images/icons/about.png" alt="" title=""/><span>Süpervizör</span></a></li>
+                            <li class="yellow"><a href="#" onclick="swiperParent.swipeTo(6);"><img
+                                    src="images/icons/about.png" alt="" title=""/><span>Profilim</span></a></li>
                         </ul>
                         <div class="clearfix"></div>
                     </div>
@@ -116,9 +116,11 @@
                                     <h4>Cerrahi Türü : ----<br>Vaka Türü : ----</h4>
                                 </div>
                                 <div class="post_right_unreveal">
-                                    <a class="post_comments" href="#" style="float: right;">Yorum</a>
+                                    <a class="post_comments" href="#" style="float: right;"
+                                       onclick="swiperParent.swipeTo(10);">Yorum</a>
                                     <a class="post_comments" href="#" style="float: right;">Sil</a>
-                                    <a class="post_comments" href="#" style="float: right">Düzenle</a>
+                                    <a class="post_comments" href="#" style="float: right"
+                                       onclick="swiperParent.swipeTo(1);">Düzenle</a>
                                 </div>
 
                                 <div class="post_left">
@@ -152,15 +154,14 @@
                             <li class="post">
                                 <a href="#" class="post_more"></a>
 
-                                <div class="post_right_reveal">
+                                <div class="post_right_reveal" style="left: 0; width: 85%">
                                     <h4>Asistan Adı : ----</h4>
                                 </div>
-                                <div class="post_right_unreveal">
-                                    <a class="post_comments" href="#" style="float: right;">Sil</a>
+                                <div class="post_right_unreveal" style="left: 0; width: 85%">
+                                    <a class="post_comments" href="#" style="float: right;">Kaldır</a>
                                 </div>
                             </li>
                         </ul>
-                        <div id="loadMore">Daha fazla göster</div>
                         <div class="scrolltop radius20"><a href="#" class="scrolltop3"><img src="images/icons/top.png"
                                                                                             alt="Yukarı"
                                                                                             title="Yukarı"/></a>
@@ -405,31 +406,36 @@
             <div class="swiper-slide">
                 <div class="slide-inner">
                     <div class="pages_container">
-                        <h2 class="page_title">Our Videos</h2>
+                        <h2 class="page_title">Profil Ayarları</h2>
 
-                        <p>
-                            Just some responsive videos. You can add your video description here.
-                        </p>
-
-                        <div class="videocontainer radius6">
-                            <iframe width="400" height="150" src="http://www.youtube.com/embed/bwJWYlS-wnE"
-                                    frameborder="0"></iframe>
-                        </div>
-                        <h3>My Mobile Page V3</h3>
-
-                        <div class="videocontainer radius6">
-                            <iframe width="400" height="150" src="http://www.youtube.com/embed/EhY58d4XLl8"
-                                    frameborder="0"></iframe>
-                        </div>
-                        <h3>Photography style</h3>
-
-                        <div class="videocontainer radius6">
-                            <iframe width="400" height="150" src="http://www.youtube.com/embed/BuAtapRfauM"
-                                    frameborder="0"></iframe>
-                        </div>
-                        <div class="scrolltop radius20"><a href="#" class="scrolltop6"><img src="images/icons/top.png"
-                                                                                            alt="Yukarı"
-                                                                                            title="Yukarı"/></a>
+                        <div class="form">
+                            <form action="" method="post">
+                                <label>Cerrahi Tarihi:</label>
+                                <input type="date" name="cerrahiTarihi" id="cerrahiTarihi" value=""
+                                       class="form_input txt requiredField"/>
+                                <label>Hasta Yaşı:</label>
+                                <input type="number" name="hastaYasi" id="hastaYasi" value=""
+                                       class="form_input txt requiredField"/>
+                                <label>Cerrahi Pozisyon:</label>
+                                <select name="cerrahiPozisyon" id="cerrahiPozisyon">
+                                    <option></option>
+                                </select>
+                                <label>Vaka Türü:</label>
+                                <select name="vakaTuru" id="vakaTuru">
+                                    <option></option>
+                                </select>
+                                <label>Kullanılan Teknoloji:</label>
+                                <select name="kullanilanTeknoloji" id="kullanilanTeknoloji">
+                                    <option></option>
+                                </select>
+                                <label>Komplikasyon:</label>
+                                <select name="Komplikasyon" id="Komplikasyon">
+                                    <option value="Yok">Yok</option>
+                                    <option value="Var">Var</option>
+                                </select>
+                                <input name="submit" type="submit" class="form_submit darkblue" value="Kaydet"
+                                       id="yeniOperasyonEkle"/>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -499,27 +505,20 @@
     </div>
 </div>
 <div class="swiper-slide sliderbg bluegreen">
-    <div class="swiper-container swiper-nested9">
+    <div class="swiper-container swiper-nested10">
         <div class="swiper-wrapper">
             <div class="swiper-slide">
                 <div class="slide-inner">
                     <div class="pages_container">
 
-                        <h2 class="page_title">Get in touch</h2>
+                        <h2 class="page_title">Operasyon Yorumu</h2>
 
                         <div class="form">
-                            <form id="contact-us" action="" method="post">
-                                <label>Name:</label>
-                                <input type="text" name="contactName" id="contactName" value=""
-                                       class="form_input txt requiredField"/>
-                                <label>Email:</label>
-                                <input type="text" name="email" id="email" value=""
-                                       class="form_input txt requiredField email"/>
-                                <label>Message:</label>
-                                <textarea name="comments" id="commentsText" class="form_textarea txtarea requiredField"
-                                          rows="" cols=""></textarea>
-                                <input type="hidden" name="submitted" id="submitted" value="true"/>
-                                <input name="submit" type="submit" class="form_submit darkblue" value="Send"/>
+                            <form id="operasyonYorum" action="" method="post">
+                                <label>Yorum:</label>
+                                <textarea name="Yorum" id="operasyonYorum" class="form_textarea txtarea requiredField"
+                                          rows="" cols="" style="height: 250px;"></textarea>
+                                <input name="submit" type="submit" class="form_submit darkblue" value="Kaydet"/>
                             </form>
                         </div>
 
