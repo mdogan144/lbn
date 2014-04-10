@@ -53,10 +53,10 @@ ul.photo_gallery_13_round li img{-webkit-border-radius: 200px;-moz-border-radius
 .post_right_unreveal{color:#FFFFFF;background-color:#85af5d;}
 .post_right_unreveal a{color:#FFFFFF;}
 .post_right_reveal h4{font-size:15px;}
-a.post_more{background:url(images/bullet_cross_big.png) no-repeat center center #353535;
+a.post_more{background:url(images/bullet_left.png) no-repeat center center #353535;
 }
 a.activep{background:url(images/bullet_cross_big_close.png) no-repeat center center #e2e2e2;}
-span.post_comments{background:url(images/comments.png) no-repeat left;}
+.post_comments{background:url(images/comments.png) no-repeat left;}
 a.post_readmore{background:url(images/bullet_cross_white.png) no-repeat left;}
 #loadMore, #showLess, a.backtoblog{background-color:#85af5d;color:#FFFFFF;}
 .comment_row{border-bottom:1px #ddd solid;}

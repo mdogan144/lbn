@@ -111,6 +111,7 @@ ul.photo_gallery_11 li img{ max-width:96%; display:block;padding:2%;}
 ul.posts{ padding:0px; margin:0px; width:100%; display:block;}
 ul.posts li.post{ width:100%; height:80px; margin:0 0 10px 0; position:relative;}
 .post_left{width:25%; height:80px; text-align:center;position:absolute; top:0px; left:0px; }
+.post_right{width:25%; height:80px; text-align:center;position:absolute; top:0px; right:0px; }
 span.day{ display:block; font-size:40px; padding:15px 0 0 0;}
 span.month{ display:block; font-size:22px; padding:10px 0 0 0;}
 .post_right_reveal{width:60%; height:80px; position:absolute; top:0px; left:25%;padding:0 0 0 5%; z-index:99;}
@@ -118,7 +119,7 @@ span.month{ display:block; font-size:22px; padding:10px 0 0 0;}
 .post_right_reveal h4{ padding:10px 10px 0 0; font-size:16px; line-height:20px;}
 .post_right_unreveal a{font-weight:bold;}
 a.post_more{display:block;position:absolute; top:0px; right:0px;  width:10%; height:80px;overflow:hidden;}
-span.post_comments{ display:block; padding:0 0 0 25px;}
+.post_comments{ display:block; padding:0 0 0 25px;}
 a.post_readmore{ padding:0 0 0 15px;font-weight:normal; font-size:12px;}
 #loadMore{width:92%; padding:3% 4%; margin:0 0 10px 0; text-align:center; font-size:14px; display:block; cursor:pointer;}
 #showLess{width:92%; padding:3% 4%; margin:0 0 10px 0; text-align:center; font-size:14px; display:none;}
