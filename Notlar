@@ -1,0 +1,17 @@
+/User/getUser
+user id istiyor. User id frontendten gönderemem. Giriş yapan kullanıcının idsini döndürmen gerekiyor orada.
+Doğum tarihi yok.
+Kullanıcı adı yerine tc no olsun. Kullanıcı adını iptal edelim.
+Hastane yok.
+Klinik yok.
+Eposta adresi yok.
+Uzmanlığa başladığı yıl yok.
+Hastaneye giriş yılı yok.
+Üyelik türü yok. (Asistan mı uzman mı)
+
+/Operation/getOperationDetail
+ComplicationType enum olmalı: Var, Yok
+
+/Operation/
+yorum yazılacak metod gerekiyor.
+
