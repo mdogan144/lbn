@@ -12,9 +12,7 @@
           content="mobile web app, mobile template, mobile design, mobile app design, mobile app theme, mobile wordpress theme, my mobile app"/>
     <title>LogBook ***GaMe TeAM***</title>
     <link type="text/css" rel="stylesheet" href="css/style.css"/>
-    <link type="text/css" rel="stylesheet" href="colors/metro/metro.css"/>
     <link type="text/css" rel="stylesheet" href="css/idangerous.swiper.css"/>
-    <link type="text/css" rel="stylesheet" href="css/swipebox.css"/>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300&subset=latin,latin-ext' rel='stylesheet'
           type='text/css'/>
 </head>
@@ -157,7 +155,7 @@
                 </div>
             </div>
         </div>
-        <div class="swiper-scrollbar2"></div>
+        <div class="swiper-scrollbar3"></div>
     </div>
 </div>
 <div class="swiper-slide sliderbg pink">
@@ -167,70 +165,16 @@
                 <div class="slide-inner">
                     <div class="pages_container">
                         <h2 class="page_title">İstatistikler</h2>
+                        <input type="hidden" id="istatistikCache" value="0">
+                        <h3>Toplam Operasyon : <span id="toplamOperasyon"></span></h3>
 
-                        <h3>Toplam Operasyon : 20</h3>
+                        <h3>Komplikasyon Sayısı : <span id="komplikasyonSayisi"></span></h3>
 
-                        <h3>Komplikasyon Sayısı : 3</h3>
-
-                        <div class="service_box">
+                        <div class="service_box" id="kullanilanTeknolojiler">
                             <h3>Kullanılan Teknolojiler</h3>
-
-                            <div class="stats">
-                                <span>Teknoloji 1</span>
-
-                                <div class="bar yellow" style="width: 10%;">2</div>
-                            </div>
-                            <br>
-                            <div class="stats">
-                                <span>Teknoloji 2</span>
-
-                                <div class="bar red" style="width: 20%;">4</div>
-                            </div>
-                            <br>
-                            <div class="stats">
-                                <span>Teknoloji 3</span>
-
-                                <div class="bar blue" style="width: 55%;">11</div>
-                            </div>
-                            <br>
-                            <div class="stats">
-                                <span>Teknoloji 4</span>
-
-                                <div class="bar purple" style="width: 15%;">3</div>
-                            </div>
                         </div>
-                        <div class="service_box">
+                        <div class="service_box" id="vakaTurleri">
                             <h3>Vaka Türleri</h3>
-
-                            <div class="stats">
-                                <span>Vaka Türü 1</span>
-
-                                <div class="bar blue" style="width: 5%;">1</div>
-                            </div>
-                            <br>
-                            <div class="stats">
-                                <span>Vaka Türü 2</span>
-
-                                <div class="bar yellow" style="width: 40%;">8</div>
-                            </div>
-                            <br>
-                            <div class="stats">
-                                <span>Vaka Türü 3</span>
-
-                                <div class="bar orange" style="width: 25%;">5</div>
-                            </div>
-                            <br>
-                            <div class="stats">
-                                <span>Vaka Türü 4</span>
-
-                                <div class="bar bluegreen" style="width: 10%;">2</div>
-                            </div>
-                            <br>
-                            <div class="stats">
-                                <span>Vaka Türü 5</span>
-
-                                <div class="bar purple" style="width: 20%;">4</div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -311,7 +255,7 @@
                 </div>
             </div>
         </div>
-        <div class="swiper-scrollbar4"></div>
+        <div class="swiper-scrollbar6"></div>
     </div>
 </div>
 <div class="swiper-slide sliderbg bluegreen">
@@ -348,11 +292,8 @@
 <div class="pagination"></div>
 </div>
 <script type="text/javascript" src="js/jquery-1.10.1.min.js"></script>
-<script type="text/javascript" src="js/jquery.swipebox.js"></script>
 <script type="text/javascript" src="js/idangerous.swiper-2.1.min.js"></script>
 <script type="text/javascript" src="js/idangerous.swiper.scrollbar-2.1.js"></script>
-<script type="text/javascript" src="js/jquery.tabify.js"></script>
 <script type="text/javascript" src="js/code.js"></script>
-<script type="text/javascript" src="js/load.js"></script>
 </body>
 </html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png"/>
+    <link rel="apple-touch-startup-image" href="images/apple-touch-startup-image-320x460.png"/>
+    <meta name="keywords"
+          content="mobile web app, mobile template, mobile design, mobile app design, mobile app theme, mobile wordpress theme, my mobile app"/>
+    <title>LogBook ***GaMe TeAM***</title>
+    <link type="text/css" rel="stylesheet" href="css/style.css"/>
+    <link type="text/css" rel="stylesheet" href="css/idangerous.swiper.css"/>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300&subset=latin,latin-ext' rel='stylesheet'
+          type='text/css'/>
+</head>
+<body>
+<div class="swiper-container swiper-parent blue">
+<div class="login">
+    <div class="login_logo">Operasyon Günlüğüm</div>
+    <div class="form">
+        <input type="text" id="kullaniciAdi" class="form_input" placeholder="Kullanıcı Adı">
+        <input type="password" id="kullaniciSifresi" class="form_input" placeholder="Şifre">
+        <input type="submit" value="Giriş" id="girisYap" class="form_submit">
+    </div>
+    <div class="clearfix"></div>
+</div>
+</div>
+<script type="text/javascript" src="js/jquery-1.10.1.min.js"></script>
+<script type="text/javascript">
+    $('#girisYap').on('click', function(e){
+        e.preventDefault();
+
+        if($('#kullaniciAdi').val() != '' && $('#kullaniciSifresi').val() != '')
+        {
+            $.post('login.aspx', {A: $('#kullaniciAdi').val(), B: $('#kullaniciSifresi').val()},
+                    function(dataJSON){
+                        if(dataJSON.Status == 'OK')
+                        {
+                            window.location.href = 'index.html';
+                        }
+                        else
+                        {
+                            alert(dataJSON.Message);
+                        }
+                    }, "jsonp");
+        }
+    });
+</script>
+</body>
+</html>

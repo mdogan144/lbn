@@ -1,3 +1,5 @@
+var hataMesaji = 'Lütfen internet bağlantınızı kontrol ediniz.';
+
 $.ajaxSetup({
     timeout: 10000
 });
@@ -20,12 +22,128 @@ $(function () {
 var swiperParent = new Swiper('.swiper-parent', {
     pagination: '.pagination',
     paginationClickable: true,
+    onFirstInit: function(){
+    },
     onSlideChangeEnd: function () {
         if (swiperParent.activeIndex != 0) {
             $('#header').animate({'top': '0px'}, 400);
         }
         if (swiperParent.activeIndex == 0) {
             $('#header').animate({'top': '-100px'}, 400);
+        }
+
+        if(swiperParent.activeIndex == 1)
+        {
+            if($('#vakaID').val() == '0')
+            {
+                $('#cerrahiTarihi').val('');
+                $('#hastaYasi').val('');
+                $('#cerrahiPozisyon').val('');
+                $('#vakaTuru').val('');
+                $('#kullanilanTeknoloji').val('');
+                $('#Komplikasyon').val('Yok');
+                $('#komplikasyonAciklamasi').val('');
+
+                $('#Komplikasyon').change();
+            }
+            else
+            {
+                $.get('operasyon.aspx', {A: $('#vakaID').val()}, function(dataJSON){
+                    if(dataJSON.Status != 'OK')
+                    {
+                        alert('Belirtmiş olduğunuz operasyon bulunamadı. Operasyon silinmiş olabilir.');
+                    }
+                    else
+                    {
+                        $('#cerrahiTarihi').val(dataJSON.cerrahiTarihi);
+                        $('#hastaYasi').val(dataJSON.hastaYasi);
+                        $('#cerrahiPozisyon').val(dataJSON.cerrahiPozisyon);
+                        $('#vakaTuru').val(dataJSON.vakaTuru);
+                        $('#kullanilanTeknoloji').val(dataJSON.kullanilanTeknoloji);
+                        $('#Komplikasyon').val(dataJSON.Komplikasyon);
+                        $('#komplikasyonAciklamasi').val(dataJSON.komplikasyonAciklamasi);
+
+                        $('#Komplikasyon').change();
+                    }
+                }, "jsonp");
+            }
+        }
+        else if(swiperParent.activeIndex == 2)
+        {
+            if ($('#operasyonListesi').html() != '') {
+                $.get('operasyonlistesi.aspx', function (dataJSON) {
+                    if (dataJSON.length == 0) {
+                        $('#operasyonListesi').html('<li>Kayıtlı operasyon bulunamadı.</li>');
+                    }
+                    else {
+                        for (var i = 0; i < dataJSON.length; i++) {
+                            $('#operasyonListesi').append('<li class="post"><a href="#" class="post_more"></a><div class="post_right_reveal"><h4>Cerrahi Türü : ' + dataJSON[i].cerrahiTuru + '<br>Vaka Türü : ' + dataJSON[i].vakaTuru + '</h4></div><div class="post_right_unreveal"><a class="post_comments" href="#" style="float: right;" onclick="sayfaVeIDDegistir(10,' + dataJSON[i].vakaID + ');">Yorum</a><a class="post_comments" href="#" style="float: right;" class="vakaSil" data-vakaid="' + dataJSON[i].vakaID + '">Sil</a><a class="post_comments" href="#" style="float: right"onclick="sayfaVeIDDegistir(1, ' + dataJSON[i].vakaID + ');">Düzenle</a></div><div class="post_left"><span class="day">' + dataJSON[i].Gun + '</span><span class="month">' + dataJSON[i].Ay + '</span><span class="year">' + dataJSON[i].Yil + '</span></div></li>');
+                        }
+                    }
+                }, "jsonp");
+            }
+        }
+        else if(swiperParent.activeIndex == 4)
+        {
+            if($('#istatistikCache').val() == '0')
+            {
+                var renkler = ["yellow", "red", "purple", "blue", "orange", "bluegreen"];
+
+                $.get('istatistikler.aspx', function(dataJSON){
+                    $('#toplamOperasyon').text(dataJSON.toplamOperasyon);
+                    $('#komplikasyonSayisi').text(dataJSON.komplikasyonSayisi);
+
+                    var toplam = 0;
+                    var carpan = 1;
+
+                    for(var i = 0; i < dataJSON.Teknolojiler.length; i++)
+                    {
+                        toplam += dataJSON.Teknolojiler[i].Sayisi;
+                    }
+
+                    carpan = 100 / toplam;
+
+                    var shuffleRenkler = renkler;
+
+                    for(var j, x, i = shuffleRenkler.length; i; j = Math.floor(Math.random() * i), x = shuffleRenkler[--i], shuffleRenkler[i] = shuffleRenkler[j], shuffleRenkler[j] = x);
+
+                    for(var i = 0; i < dataJSON.Teknolojiler.length; i++)
+                    {
+                        $('#kullanilanTeknolojiler h3').append('<div class="stats"><span>' + dataJSON.Teknolojiler[i].Adi + '</span><div class="bar ' + shuffleRenkler.pop() + '" style="width: ' + Math.floor(dataJSON.Teknolojiler[i].Sayisi * carpan) + '%;">' + dataJSON.Teknolojiler[i].Sayisi + '</div></div><br>');
+                    }
+
+                    toplam = 0;
+
+                    for(var i = 0; i < dataJSON.vakaTurleri.length; i++)
+                    {
+                        toplam += dataJSON.vakaTurleri[i].Sayisi;
+                    }
+
+                    carpan = 100 / toplam;
+
+                    shuffleRenkler = renkler;
+
+                    for(var j, x, i = shuffleRenkler.length; i; j = Math.floor(Math.random() * i), x = shuffleRenkler[--i], shuffleRenkler[i] = shuffleRenkler[j], shuffleRenkler[j] = x);
+
+                    for(var i = 0; i < dataJSON.vakaTurleri.length; i++)
+                    {
+                        $('#vakaTurleri h3').append('<div class="stats"><span>' + dataJSON.vakaTurleri[i].Adi + '</span><div class="bar ' + shuffleRenkler.pop() + '" style="width: ' + Math.floor(dataJSON.vakaTurleri[i].Sayisi * carpan) + '%;">' + dataJSON.vakaTurleri[i].Sayisi + '</div></div><br>');
+                    }
+
+                    $('#istatistikCache').val('1');
+                }, "jsonp");
+            }
+        }
+        else if(swiperParent.activeIndex == 7) // operasyon yorumu
+        {
+            if ($('#vakaID').val() == '0') {
+                swiperParent.swipeTo(2);
+            }
+            else {
+                $.get('operasyonYorum.aspx', {A: $('#vakaID').val()}, function (dataJSON) {
+                    $('#operasyonYorum').val(dataJSON.Yorum);
+                }, "jsonp");
+            }
         }
     }
 })
@@ -49,41 +167,6 @@ var swiperNested1 = new Swiper('.swiper-nested1', {
         container: '.swiper-scrollbar1',
         hide: true,
         draggable: false
-    },
-    onInit: function(){
-        if($('#vakaID').val() == '0')
-        {
-            $('#cerrahiTarihi').val('');
-            $('#hastaYasi').val('');
-            $('#cerrahiPozisyon').val('');
-            $('#vakaTuru').val('');
-            $('#kullanilanTeknoloji').val('');
-            $('#Komplikasyon').val('Yok');
-            $('#komplikasyonAciklamasi').val('');
-
-            $('#Komplikasyon').change();
-        }
-        else
-        {
-            $.get('operasyon.aspx', {A: $('#vakaID').val()}, function(dataJSON){
-                if(dataJSON.Status != 'OK')
-                {
-                    alert('Belirtmiş olduğunuz operasyon bulunamadı. Operasyon silinmiş olabilir.');
-                }
-                else
-                {
-                    $('#cerrahiTarihi').val(dataJSON.cerrahiTarihi);
-                    $('#hastaYasi').val(dataJSON.hastaYasi);
-                    $('#cerrahiPozisyon').val(dataJSON.cerrahiPozisyon);
-                    $('#vakaTuru').val(dataJSON.vakaTuru);
-                    $('#kullanilanTeknoloji').val(dataJSON.kullanilanTeknoloji);
-                    $('#Komplikasyon').val(dataJSON.Komplikasyon);
-                    $('#komplikasyonAciklamasi').val(dataJSON.komplikasyonAciklamasi);
-
-                    $('#Komplikasyon').change();
-                }
-            }, "jsonp");
-        }
     }
 })
 var swiperNested2 = new Swiper('.swiper-nested2', {
@@ -95,20 +178,6 @@ var swiperNested2 = new Swiper('.swiper-nested2', {
         container: '.swiper-scrollbar2',
         hide: true,
         draggable: false
-    },
-    onInit: function () {
-        if ($('#operasyonListesi').html() != '') {
-            $.get('operasyonlistesi.aspx', function (dataJSON) {
-                if (dataJSON.length == 0) {
-                    $('#operasyonListesi').html('Kayıtlı operasyon bulunamadı.');
-                }
-                else {
-                    for (var i = 0; i < dataJSON.length; i++) {
-                        $('#operasyonListesi').append('<li class="post"><a href="#" class="post_more"></a><div class="post_right_reveal"><h4>Cerrahi Türü : ' + dataJSON[i].cerrahiTuru + '<br>Vaka Türü : ' + dataJSON[i].vakaTuru + '</h4></div><div class="post_right_unreveal"><a class="post_comments" href="#" style="float: right;" onclick="sayfaVeIDDegistir(10,' + dataJSON[i].vakaID + ');">Yorum</a><a class="post_comments" href="#" style="float: right;" class="vakaSil" data-vakaid="' + dataJSON[i].vakaID + '">Sil</a><a class="post_comments" href="#" style="float: right"onclick="sayfaVeIDDegistir(1, ' + dataJSON[i].vakaID + ');">Düzenle</a></div><div class="post_left"><span class="day">' + dataJSON[i].Gun + '</span><span class="month">' + dataJSON[i].Ay + '</span><span class="year">' + dataJSON[i].Yil + '</span></div></li>');
-                    }
-                }
-            }, "jsonp");
-        }
     }
 })
 var swiperNested3 = new Swiper('.swiper-nested3', {
@@ -191,23 +260,7 @@ var swiperNested9 = new Swiper('.swiper-nested9', {
 var swiperNested10 = new Swiper('.swiper-nested10', {
     scrollContainer: true,
     mousewheelControl: true,
-    mode: 'vertical',
-//Enable Scrollbar
-    scrollbar: {
-        container: '.swiper-scrollbar10',
-        hide: true,
-        draggable: false
-    },
-    onInit: function () {
-        if ($('#vakaID').val() == '0') {
-            swiperParent.swipeTo(2);
-        }
-        else {
-            $.get('operasyonyorum.aspx', {A: $('#vakaID').val()}, function (dataJSON) {
-                $('#operasyonYorum').val(dataJSON.Yorum);
-            }, "jsonp");
-        }
-    }
+    mode: 'vertical'
 })
 var swiperNestedsingle = new Swiper('.swiper-nestedsingle', {
     scrollContainer: true,
@@ -252,11 +305,13 @@ $('.scrolltopsingle').click(function () {
 });
 $('.gohome').click(function () {
     swiperParent.swipeTo(0);
-});
+});/*
 jQuery(function ($) {
     $(".swipebox").swipebox();
 });
+*/
 $(function () {
+    /*
     $('#tabsmenu').tabify();
     $(".toggle_container").hide();
     $(".toggle_container_blog").hide();
@@ -273,6 +328,7 @@ $(function () {
         });
         return false;
     });
+    */
     $(".post_more").click(function () {
         $(this).toggleClass("activep").next().slideToggle("slow");
         return false;
@@ -286,9 +342,10 @@ $('#yeniOperasyonEkle').on('click', function (e) {
         E: $('#kullanilanTeknoloji').val(), F: $('#Komplikasyon').val(), G: $('#vakaID').val()}, function (dataJSON) {
 
         if (dataJSON.Status == 'OK') {
-            alert('Yeni Operasyon başarı ile eklendi.');
 
             if ($('#vakaID').val() == '0') {
+                alert('Yeni Operasyon başarı ile eklendi.');
+
                 $('#cerrahiTarihi').val('');
                 $('#hastaYasi').val('');
                 $('#cerrahiPozisyon').val('');
@@ -299,13 +356,14 @@ $('#yeniOperasyonEkle').on('click', function (e) {
 
                 $('#Komplikasyon').change();
                 $('#operasyonListesi').html('');
+                $('#istatistikCache').val('0');
             }
             else {
-                alert(dataJSON.Message);
+                alert('Operasyon başarı ile düzenlendi.');
             }
         }
         else {
-            alert(hataMesaji);
+            alert(dataJSON.Message);
         }
     }, "jsonp");
 });
@@ -361,4 +419,20 @@ $('#profilGuncelle').on('click', function(e) {
             alert(hataMesaji);
         }
     }, "jsonp");
+});
+
+$(document).ready(function () {
+    $(".posts li").hide();
+    size_li = $(".posts li").size();
+    x=3;
+    $('.posts li:lt('+x+')').show();
+    $('#loadMore').click(function () {
+        x= (x+1 <= size_li) ? x+1 : size_li;
+        $('.posts li:lt('+x+')').show();
+        swiperNested3.reInit();
+        if(x == size_li){
+            $('#loadMore').hide();
+            $('#showLess').show();
+        }
+    });
 });
