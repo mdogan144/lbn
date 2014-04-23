@@ -65,6 +65,7 @@
 
                         <div class="form">
                             <form action="" method="post">
+                                <input type="hidden" value="0" id="vakaID">
                                 <label>Cerrahi Tarihi:</label>
                                 <input type="date" name="cerrahiTarihi" id="cerrahiTarihi" value=""
                                        class="form_input txt requiredField"/>
@@ -76,8 +77,14 @@
                                     <option></option>
                                 </select>
                                 <label>Vaka Türü:</label>
-                                <select name="vakaTuru" id="vakaTuru">
-                                    <option></option>
+                                <select name="vakaTuru" id="vakaTuru" class="vakaTuru">
+                                    <optgroup label="Vaka Grubu">
+                                        <option>A</option>
+                                        <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;Vaka Grubu 3"><option>&nbsp;&nbsp;&nbsp;&nbsp;C</option></optgroup>
+                                    </optgroup>
+                                    <optgroup label="Vaka Grubu 2">
+                                        <option>B</option>
+                                    </optgroup>
                                 </select>
                                 <label>Kullanılan Teknoloji:</label>
                                 <select name="kullanilanTeknoloji" id="kullanilanTeknoloji">
@@ -118,7 +125,7 @@
                                        onclick="swiperParent.swipeTo(10);">Yorum</a>
                                     <a class="post_comments" href="#" style="float: right;">Sil</a>
                                     <a class="post_comments" href="#" style="float: right"
-                                       onclick="swiperParent.swipeTo(1);">Düzenle</a>
+                                       onclick="vakaDuzenle();">Düzenle</a>
                                 </div>
 
                                 <div class="post_left">
