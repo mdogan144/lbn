@@ -189,6 +189,18 @@ var swiperNested3 = new Swiper('.swiper-nested3', {
         container: '.swiper-scrollbar3',
         hide: true,
         draggable: false
+    },
+    onInit: function(){
+        $.get('Asistanlarim.aspx', function (dataJSON){
+            if (dataJSON.length == 0) {
+                $('#Asistanlarim').html('<li>Kullanıcıya bağlı asistan bulunamadı.</li>');
+            }
+            else{
+                for(var i=0; i < dataJSON.length; i++){
+                    $('#Asistanlarim').append('<li class="post"><a href="#" class="post_more"></a><div class="post_right_reveal" style="left: 0; width: 85%"><h4>Asistan Adı : ' + dataJSON[i].adi + ' </h4></div><div class="post_right_unreveal" style="left: 0; width: 85%"><a class="post_comments asistanKaldir" data-asistanid=" ' + dataJSON[i].asistanID + ' " href="#" style="float: right;">Kaldır</a></div></li>');
+                }
+            }
+        }, "jsonp");
     }
 })
 var swiperNested4 = new Swiper('.swiper-nested4', {
@@ -211,6 +223,18 @@ var swiperNested5 = new Swiper('.swiper-nested5', {
         container: '.swiper-scrollbar5',
         hide: true,
         draggable: false
+    },
+    onInit: function(){
+        $.get('asistanOperasyonlarim.aspx', function (dataJSON){
+            if (dataJSON.length == 0) {
+                $('#AsistanOperasyonListesi').html('<li>Asistanların operasyon kaydı bulunamadı.</li>');
+            }
+            else{
+                for(var i=0; i < dataJSON.length; i++){
+                    $('#AsistanOperasyonListesi').append('<li class="post" ><a href="#" class="post_more"></a><div class="post_right_reveal"><h4>Cerrahi Türü : ' + dataJSON[i].cerrahiTuru + ' <br>Vaka Türü : ' + dataJSON[i].vakaTuru + '</h4></div><div class="post_right_unreveal"><a class="post_comments" data-operasyonid="' + dataJSON[i].operasyonid + '" href="#" style="float: right;"onclick="swiperParent.swipeTo(10);">Yorum</a></div><div class="post_left"><span class="day">' + dataJSON[i].gun + '</span><span class="month">' + dataJSON[i].ay + '</span><span class="year">' + dataJSON[i].yil + '</span></div></li>');
+                }
+            }
+        }, "jsonp");
     }
 })
 var swiperNested6 = new Swiper('.swiper-nested6', {
@@ -222,6 +246,16 @@ var swiperNested6 = new Swiper('.swiper-nested6', {
         container: '.swiper-scrollbar6',
         hide: true,
         draggable: false
+    },
+    onInit: function(){
+        $.get('profil.aspx', function(dataJSON){
+            $('#adiSoyadi').val(dataJSON.adiSoyadi);
+            $('#dogumTarihi').val(dataJSON.dogumTarihi);
+            $('#Hastane').val(dataJSON.Hastane);
+            $('#Klinik').val(dataJSON.Klinik);
+            $('#uzmBasladigiYil').val(dataJSON.uzmBasladigiYil);
+            $('#hastGirisYili').val(dataJSON.hastGirisYili);
+        }, "jsonp");
     }
 })
 var swiperNested7 = new Swiper('.swiper-nested7', {
@@ -334,13 +368,10 @@ $(function () {
         return false;
     });
 });
-
 $('#yeniOperasyonEkle').on('click', function (e) {
     e.preventDefault();
 
-    $.post("yeniekle.aspx", {A: $('#cerrahiTarihi').val(), B: $('#hastaYasi').val(), C: $('#cerrahiPozisyon').val(), D: $('#vakaTuru').val(),
-        E: $('#kullanilanTeknoloji').val(), F: $('#Komplikasyon').val(), G: $('#vakaID').val()}, function (dataJSON) {
-
+    $.post("yeniekle.aspx", {A: $('#cerrahiTarihi').val(), B: $('#hastaYasi').val(), C: $('#cerrahiPozisyon').val(), D: $('#vakaTuru').val(), E: $('#kullanilanTeknoloji').val(), F: $('#Komplikasyon').val(), G: $('#vakaID').val()}, function (dataJSON) {
         if (dataJSON.Status == 'OK') {
 
             if ($('#vakaID').val() == '0') {
@@ -367,7 +398,6 @@ $('#yeniOperasyonEkle').on('click', function (e) {
         }
     }, "jsonp");
 });
-
 $(document).on('click', '.vakaSil', function (e) {
     e.preventDefault();
 
@@ -380,7 +410,18 @@ $(document).on('click', '.vakaSil', function (e) {
         }
     })
 }, "jsonp");
+$(document).on('click', '.asistanKaldir', function (e) {
+    e.preventDefault();
 
+    $.get('asistanKaldir.aspx', {A: $(this).data('asistanid')}, function (dataJSON) {
+        if (dataJSON.Status == 'OK') {
+            alert('Asistan başarıyla kaldırıldı.');
+        }
+        else {
+            alert(hataMesaji);
+        }
+    })
+}, "jsonp");
 $('#Komplikasyon').on('change', function(){
     if($(this).val() == 'Var')
     {
@@ -391,12 +432,10 @@ $('#Komplikasyon').on('change', function(){
         $('#komplikasyonAciklamasi').parent().slideUp('fast');
     }
 });
-
 $('#yorumKaydet').on('click', function(e) {
     e.preventDefault();
 
     $.post("yorum.aspx", { A: $('#vakaID').val(), B: $('#operasyonYorum').val()}, function (dataJSON) {
-
         if (dataJSON.Status == 'OK') {
             alert('Yorum başarıyla eklendi.');
         }
@@ -405,13 +444,10 @@ $('#yorumKaydet').on('click', function(e) {
         }
     }, "jsonp");
 });
-
 $('#profilGuncelle').on('click', function(e) {
     e.preventDefault();
 
-    $.post("profil.aspx", { A: $('#adiSoyadi').val(), B: $('#dogumTarihi').val(), C: $('#Hastane').val(), D: $('#Klinik').val(),
-        E: $('#uzmBasladigiYil').val(), D: $('#hastGirisYili').val()}, function (dataJSON) {
-
+    $.post("profil.aspx", { A: $('#adiSoyadi').val(), B: $('#dogumTarihi').val(), C: $('#Hastane').val(), D: $('#Klinik').val(), E: $('#uzmBasladigiYil').val(), D: $('#hastGirisYili').val()}, function (dataJSON) {
         if (dataJSON.Status == 'OK') {
             alert('Profil başarıyla güncellendi.');
         }
