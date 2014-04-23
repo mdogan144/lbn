@@ -1,5 +1,3 @@
-var hataMesaji = 'Lütfen internet bağlantınızı kontrol edin.';
-
 $.ajaxSetup({
     timeout: 10000
 });
@@ -334,4 +332,33 @@ $('#Komplikasyon').on('change', function(){
     {
         $('#komplikasyonAciklamasi').parent().slideUp('fast');
     }
-})
+});
+
+$('#yorumKaydet').on('click', function(e) {
+    e.preventDefault();
+
+    $.post("yorum.aspx", { A: $('#vakaID').val(), B: $('#operasyonYorum').val()}, function (dataJSON) {
+
+        if (dataJSON.Status == 'OK') {
+            alert('Yorum başarıyla eklendi.');
+        }
+        else {
+            alert(hataMesaji);
+        }
+    }, "jsonp");
+});
+
+$('#profilGuncelle').on('click', function(e) {
+    e.preventDefault();
+
+    $.post("profil.aspx", { A: $('#adiSoyadi').val(), B: $('#dogumTarihi').val(), C: $('#Hastane').val(), D: $('#Klinik').val(),
+        E: $('#uzmBasladigiYil').val(), D: $('#hastGirisYili').val()}, function (dataJSON) {
+
+        if (dataJSON.Status == 'OK') {
+            alert('Profil başarıyla güncellendi.');
+        }
+        else{
+            alert(hataMesaji);
+        }
+    }, "jsonp");
+});
