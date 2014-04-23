@@ -213,10 +213,9 @@ $('#yeniOperasyonEkle').on('click', function (e) {
         E: $('#kullanilanTeknoloji').val(), F: $('#Komplikasyon').val(), E: $('#vakaID').val()}, function (dataJSON) {
 
         if (dataJSON.Status == 'OK') {
-            alert('Yeni Operasyon başarı ile eklendi.');
+            alert('Yeni Operasyon başarıyla eklendi.');
 
-            if($('#vakaID').val() == '0')
-            {
+            if ($('#vakaID').val() == '0') {
                 $('#cerrahiTarihi').val('');
                 $('#hastaYasi').val('');
                 $('#cerrahiPozisyon').val('');
@@ -224,13 +223,12 @@ $('#yeniOperasyonEkle').on('click', function (e) {
                 $('#kullanilanTeknoloji').val('');
                 $('#Komplikasyon').val('');
             }
-            else
-            {
+            else {
                 alert(dataJSON.Message);
             }
         }
         else {
-            alert('Lütfen internet bağlantınızı kontrol edin.');
+            alert(hataMesaji);
         }
     }, "jsonp");
 });
@@ -239,3 +237,32 @@ function vakaDuzenle()
 {
 
 }
+
+$('#yorumKaydet').on('click', function(e) {
+    e.preventDefault();
+
+    $.post("yorum.aspx", { A: $('#vakaID').val(), B: $('#operasyonYorum').val()}, function (dataJSON) {
+
+        if (dataJSON.Status == 'OK') {
+            alert('Yorum başarıyla eklendi.');
+        }
+        else {
+            alert(hataMesaji);
+        }
+    }, "jsonp");
+});
+
+$('#profilGuncelle').on('click', function(e) {
+    e.preventDefault();
+
+    $.post("profil.aspx", { A: $('#adiSoyadi').val(), B: $('#dogumTarihi').val(), C: $('#Hastane').val(), D: $('#Klinik').val(),
+        E: $('#uzmBasladigiYil').val(), D: $('#hastGirisYili').val()}, function (dataJSON) {
+
+        if (dataJSON.Status == 'OK') {
+            alert('Profil başarıyla güncellendi.');
+        }
+        else{
+            alert(hataMesaji);
+        }
+    }, "jsonp");
+});

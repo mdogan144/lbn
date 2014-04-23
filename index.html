@@ -315,8 +315,8 @@
                                 <select name="Klinik" id="Klinik">
                                     <option></option>
                                 </select>
-                                <label>Uzm. Giriş Yılı:</label>
-                                <input type="number" name="uzmGirisYili" id="uzmGirisYili" value=""
+                                <label>Uzm. Başladığı Yıl:</label>
+                                <input type="number" name="uzmBasladigiYil" id="uzmBasladigiYil" value=""
                                        class="form_input txt requiredField"/>
                                 <label>Hast. Giriş Yılı:</label>
                                 <input type="number" name="hastGirisYili" id="hastGirisYili" value=""
@@ -342,11 +342,11 @@
                         <h2 class="page_title">Operasyon Yorumu</h2>
 
                         <div class="form">
-                            <form id="operasyonYorum" action="" method="post">
+                            <form action="" method="post">
                                 <label>Yorum:</label>
                                 <textarea name="Yorum" id="operasyonYorum" class="form_textarea txtarea requiredField"
                                           rows="" cols="" style="height: 250px;"></textarea>
-                                <input name="submit" type="submit" class="form_submit darkblue" value="Kaydet"/>
+                                <input name="submit" type="submit" id="yorumKaydet" class="form_submit darkblue" value="Kaydet"/>
                             </form>
                         </div>
 
