@@ -236,7 +236,7 @@ var swiperNested5 = new Swiper('.swiper-nested5', {
             }
         }, "jsonp");
     }
-})
+});
 var swiperNested6 = new Swiper('.swiper-nested6', {
     scrollContainer: true,
     mousewheelControl: true,
