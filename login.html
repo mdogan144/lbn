@@ -20,16 +20,32 @@
 <div class="swiper-container swiper-parent blue">
 <div class="login">
     <div class="login_logo">Operasyon Günlüğüm</div>
-    <div class="form">
-        <input type="text" id="kullaniciAdi" class="form_input" placeholder="Kullanıcı Adı">
+    <div class="form" id="loginDiv">
+        <input type="number" id="kullaniciAdi" class="form_input" placeholder="TC No">
         <input type="password" id="kullaniciSifresi" class="form_input" placeholder="Şifre">
         <input type="submit" value="Giriş" id="girisYap" class="form_submit">
+        <input type="submit" value="Kayıt Ol" id="kayitOl" class="form_submit" style="margin-top: 8px;">
+    </div>
+    <div class="form" id="uyeOlDiv" style="display: none;">
+        <input type="number" id="tcNo" class="form_input" placeholder="TC Kimlik Numaranız">
+        <input type="text" id="adSoyad" class="form_input" placeholder="Adınız Soyadınız">
+        <input type="email" id="Mail" class="form_input" placeholder="E-posta Adresiniz">
+        <select name="Hastane" id="Hastane">
+            <option value="0">Çalıştığınız Hastane</option>
+        </select>
+        <select name="Klinik" id="Klinik">
+            <option value="0">Klinik</option>
+        </select>
+        <input type="password" id="Sifre" class="form_input" placeholder="Şifreniz">
+        <input type="password" id="sifreTekrar" class="form_input" placeholder="Şifreniz Tekrar">
+        <input type="submit" value="Kayıt Ol" id="uyeOl" class="form_submit">
+        <input type="submit" value="İptal" id="Iptal" class="form_submit" style="margin-top: 8px;">
     </div>
     <div class="clearfix"></div>
 </div>
 </div>
 <script type="text/javascript" src="js/jquery-1.10.1.min.js"></script>
-<script type="text/javascript">
+<script type="text/javascript" charset="utf-8">
     $('#girisYap').on('click', function(e){
         e.preventDefault();
 
@@ -46,6 +62,65 @@
                             alert(dataJSON.Message);
                         }
                     }, "jsonp");
+        }
+    });
+
+    $('#kayitOl').on('click', function(e){
+        e.preventDefault();
+
+        $('#loginDiv').slideUp('fast');
+        $('#uyeOlDiv').slideDown('slow');
+    });
+
+    $('#Iptal').on('click', function(e){
+        e.preventDefault();
+
+        $('#uyeOlDiv').slideUp('fast');
+        $('#loginDiv').slideDown('slow');
+    });
+
+    $('#Hastane').on('change', function(){
+        if($(this).val() == '0')
+        {
+            $('#Klinik').html('');
+        }
+        else
+        {
+            $.get('klinikler.aspx', {A: $('#Hastane').val()}, function(dataJSON){
+                $('#Klinik').html('');
+
+                for(var i = 0; i < dataJSON.length; i++)
+                {
+                    $('#Klinik').append('<option value="' + dataJSON[i].KlinikID + '">' + dataJSON[i].KlinikAdi +
+                            '</option>');
+                }
+            }, "jsonp");
+        }
+    });
+
+    $('#uyeOl').on('click', function(e){
+        e.preventDefault();
+
+        if($('#Sifre').val() != $('#sifreTekrar').val())
+        {
+            alert('Şifreler birbirleriyle aynı değil.');
+        }
+        else
+        {
+            $.post('uyeol.aspx', {A: $('#tcNo').val(), B: $('#adSoyad').val(), C: $('#Mail').val(),
+                D: $('#Hastane').val(), E: $('#Klinik').val(), F: $('#Sifre').val()}, function(dataJSON){
+
+                if(dataJSON.Status == 'OK')
+                {
+                    alert('Kaydınız gerçekleşti.');
+
+                    $('#Iptal').click();
+                }
+                else
+                {
+                    alert(dataJSON.Message);
+                }
+            }, "jsonp");
         }
     });
 </script>

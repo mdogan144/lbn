@@ -23,6 +23,18 @@ var swiperParent = new Swiper('.swiper-parent', {
     pagination: '.pagination',
     paginationClickable: true,
     onFirstInit: function(){
+        $.get('profil.aspx', function(dataJSON){
+            $('#tcKimlikNo').val(dataJSON.tcKimlikNo);
+            $('#adiSoyadi').val(dataJSON.adiSoyadi);
+            $('#epostaAdresi').val(dataJSON.epostaAdresi);
+            $('#dogumTarihi').val(dataJSON.dogumTarihi);
+            $('#Hastane').val(dataJSON.Hastane);
+            $('#Klinik').val(dataJSON.Klinik);
+            $('#uzmBasladigiYil').val(dataJSON.uzmBasladigiYil);
+            $('#hastGirisYili').val(dataJSON.hastGirisYili);
+
+            $('#uyeTuru').val(dataJSON.uyeTuru);
+        }, "jsonp");
     },
     onSlideChangeEnd: function () {
         if (swiperParent.activeIndex != 0) {
@@ -83,6 +95,19 @@ var swiperParent = new Swiper('.swiper-parent', {
                 }, "jsonp");
             }
         }
+        else if(swiperParent.activeIndex == 3)
+        {
+            $.get('Asistanlarim.aspx', function (dataJSON){
+                if (dataJSON.length == 0) {
+                    $('#Asistanlarim').html('<li>Kullanıcıya bağlı asistan bulunamadı.</li>');
+                }
+                else{
+                    for(var i=0; i < dataJSON.length; i++){
+                        $('#Asistanlarim').append('<li class="post"><a href="#" class="post_more"></a><div class="post_right_reveal" style="left: 0; width: 85%"><h4>Asistan Adı : ' + dataJSON[i].adi + ' </h4></div><div class="post_right_unreveal" style="left: 0; width: 85%"><a class="post_comments asistanKaldir" data-asistanid=" ' + dataJSON[i].asistanID + ' " href="#" style="float: right;">Kaldır</a></div></li>');
+                    }
+                }
+            }, "jsonp");
+        }
         else if(swiperParent.activeIndex == 4)
         {
             if($('#istatistikCache').val() == '0')
@@ -134,8 +159,26 @@ var swiperParent = new Swiper('.swiper-parent', {
                 }, "jsonp");
             }
         }
+        else if(swiperParent.activeIndex == 5)
+        {
+            $.get('asistanOperasyonlarim.aspx', function (dataJSON){
+                if (dataJSON.length == 0) {
+                    $('#AsistanOperasyonListesi').html('<li>Asistanların operasyon kaydı bulunamadı.</li>');
+                }
+                else{
+                    for(var i=0; i < dataJSON.length; i++){
+                        $('#AsistanOperasyonListesi').append('<li class="post" ><a href="#" class="post_more"></a><div class="post_right_reveal"><h4>' + dataJSON[i].Adi + '<br>Cerrahi Türü : ' + dataJSON[i].cerrahiTuru + ' <br>Vaka Türü : ' + dataJSON[i].vakaTuru + '</h4></div><div class="post_right_unreveal"><a class="post_comments" data-operasyonid="' + dataJSON[i].operasyonid + '" href="#" style="float: right;"onclick="swiperParent.swipeTo(10);">Yorum</a></div><div class="post_left"><span class="day">' + dataJSON[i].gun + '</span><span class="month">' + dataJSON[i].ay + '</span><span class="year">' + dataJSON[i].yil + '</span></div></li>');
+                    }
+                }
+            }, "jsonp");
+        }
         else if(swiperParent.activeIndex == 7) // operasyon yorumu
         {
+            if($('#uyeTuru').val() == 'Asistan')
+            {
+                $('#yorumKaydet').remove();
+            }
+
             if ($('#vakaID').val() == '0') {
                 swiperParent.swipeTo(2);
             }
@@ -189,18 +232,6 @@ var swiperNested3 = new Swiper('.swiper-nested3', {
         container: '.swiper-scrollbar3',
         hide: true,
         draggable: false
-    },
-    onInit: function(){
-        $.get('Asistanlarim.aspx', function (dataJSON){
-            if (dataJSON.length == 0) {
-                $('#Asistanlarim').html('<li>Kullanıcıya bağlı asistan bulunamadı.</li>');
-            }
-            else{
-                for(var i=0; i < dataJSON.length; i++){
-                    $('#Asistanlarim').append('<li class="post"><a href="#" class="post_more"></a><div class="post_right_reveal" style="left: 0; width: 85%"><h4>Asistan Adı : ' + dataJSON[i].adi + ' </h4></div><div class="post_right_unreveal" style="left: 0; width: 85%"><a class="post_comments asistanKaldir" data-asistanid=" ' + dataJSON[i].asistanID + ' " href="#" style="float: right;">Kaldır</a></div></li>');
-                }
-            }
-        }, "jsonp");
     }
 })
 var swiperNested4 = new Swiper('.swiper-nested4', {
@@ -223,20 +254,8 @@ var swiperNested5 = new Swiper('.swiper-nested5', {
         container: '.swiper-scrollbar5',
         hide: true,
         draggable: false
-    },
-    onInit: function(){
-        $.get('asistanOperasyonlarim.aspx', function (dataJSON){
-            if (dataJSON.length == 0) {
-                $('#AsistanOperasyonListesi').html('<li>Asistanların operasyon kaydı bulunamadı.</li>');
-            }
-            else{
-                for(var i=0; i < dataJSON.length; i++){
-                    $('#AsistanOperasyonListesi').append('<li class="post" ><a href="#" class="post_more"></a><div class="post_right_reveal"><h4>Cerrahi Türü : ' + dataJSON[i].cerrahiTuru + ' <br>Vaka Türü : ' + dataJSON[i].vakaTuru + '</h4></div><div class="post_right_unreveal"><a class="post_comments" data-operasyonid="' + dataJSON[i].operasyonid + '" href="#" style="float: right;"onclick="swiperParent.swipeTo(10);">Yorum</a></div><div class="post_left"><span class="day">' + dataJSON[i].gun + '</span><span class="month">' + dataJSON[i].ay + '</span><span class="year">' + dataJSON[i].yil + '</span></div></li>');
-                }
-            }
-        }, "jsonp");
     }
-});
+})
 var swiperNested6 = new Swiper('.swiper-nested6', {
     scrollContainer: true,
     mousewheelControl: true,
@@ -246,16 +265,6 @@ var swiperNested6 = new Swiper('.swiper-nested6', {
         container: '.swiper-scrollbar6',
         hide: true,
         draggable: false
-    },
-    onInit: function(){
-        $.get('profil.aspx', function(dataJSON){
-            $('#adiSoyadi').val(dataJSON.adiSoyadi);
-            $('#dogumTarihi').val(dataJSON.dogumTarihi);
-            $('#Hastane').val(dataJSON.Hastane);
-            $('#Klinik').val(dataJSON.Klinik);
-            $('#uzmBasladigiYil').val(dataJSON.uzmBasladigiYil);
-            $('#hastGirisYili').val(dataJSON.hastGirisYili);
-        }, "jsonp");
     }
 })
 var swiperNested7 = new Swiper('.swiper-nested7', {
@@ -447,7 +456,7 @@ $('#yorumKaydet').on('click', function(e) {
 $('#profilGuncelle').on('click', function(e) {
     e.preventDefault();
 
-    $.post("profil.aspx", { A: $('#adiSoyadi').val(), B: $('#dogumTarihi').val(), C: $('#Hastane').val(), D: $('#Klinik').val(), E: $('#uzmBasladigiYil').val(), D: $('#hastGirisYili').val()}, function (dataJSON) {
+    $.post("profil.aspx", { A: $('#adiSoyadi').val(), B: $('#dogumTarihi').val(), C: $('#Hastane').val(), D: $('#Klinik').val(), E: $('#uzmBasladigiYil').val(), F: $('#hastGirisYili').val(), G: $('#epostaAdresi').val()}, function (dataJSON) {
         if (dataJSON.Status == 'OK') {
             alert('Profil başarıyla güncellendi.');
         }
@@ -456,19 +465,55 @@ $('#profilGuncelle').on('click', function(e) {
         }
     }, "jsonp");
 });
+$('#Hastane').on('change', function(){
+    if($(this).val() == '0')
+    {
+        $('#Klinik').html('');
+    }
+    else
+    {
+        $.get('klinikler.aspx', {A: $('#Hastane').val()}, function(dataJSON){
+            $('#Klinik').html('');
 
-$(document).ready(function () {
-    $(".posts li").hide();
-    size_li = $(".posts li").size();
-    x=3;
-    $('.posts li:lt('+x+')').show();
-    $('#loadMore').click(function () {
-        x= (x+1 <= size_li) ? x+1 : size_li;
-        $('.posts li:lt('+x+')').show();
-        swiperNested3.reInit();
-        if(x == size_li){
-            $('#loadMore').hide();
-            $('#showLess').show();
+            for(var i = 0; i < dataJSON.length; i++)
+            {
+                $('#Klinik').append('<option value="' + dataJSON[i].KlinikID + '">' + dataJSON[i].KlinikAdi +
+                    '</option>');
+            }
+        }, "jsonp");
+    }
+});
+$('#doktorAdi').on('keyrelease', function(){
+    $.post('doktorara.aspx', {A: $('#doktarAdi').val()}, function(dataJSON){
+        for(var i = 0; i < dataJSON.length; i++)
+        {
+            $('#doktorListesi').append('<li>' + dataJSON[i].doktorAdi + '</li>');
+        }
+    }, "jsonp");
+});
+$(document).on('click', '.istekGonder', function(e){
+    e.preventDefault();
+
+    $.post('supervizor.aspx', {A: $(this).data('doktorid')}, function(dataJSON){
+        if(dataJSON.Status == 'OK')
+        {
+            alert('Süpervizör isteğiniz gönderildi.');
+        }
+        else
+        {
+            alert(dataJSON.Message);
+        }
+    }, "jsonp");
+});
+$(document).on('click', '#supervizorIptal', function(){
+    $.get('supervizoriptal.aspx', function(dataJSON){
+        if(dataJSON.Status == 'OK')
+        {
+            alert('İşlem başarı ile tamamlandı.');
+        }
+        else
+        {
+            alert(hataMesaji);
         }
     });
 });

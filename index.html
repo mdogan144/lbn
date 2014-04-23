@@ -20,6 +20,7 @@
 <div id="header">
     <div class="gohome radius20"><a href="#"><img src="images/icons/home.png" alt="" title=""/></a></div>
 </div>
+<input type="hidden" id="uyeTuru" value="Asistan">
 <div class="swiper-container swiper-parent">
 <div class="swiper-wrapper">
 <div class="swiper-slide sliderbg_menu">
@@ -37,11 +38,11 @@
                                     src="images/icons/menu.png" alt="" title=""/><span>Operasyon Listem</span></a></li>
                             <li class="blue"><a href="#" onclick="swiperParent.swipeTo(3);"><img
                                     src="images/icons/clients.png" alt="" title=""/><span>Asistanlarım</span></a></li>
-                            <li class="pink"><a href="#" onclick="swiperParent.swipeTo(4);"><img
-                                    src="images/icons/stats.png" alt="" title=""/><span>İstatistikler</span></a></li>
                             <li class="purple"><a href="#" onclick="swiperParent.swipeTo(5);"><img
                                     src="images/icons/blog.png" alt="" title=""/><span>Asistan Operasyonları</span></a>
                             </li>
+                            <li class="pink"><a href="#" onclick="swiperParent.swipeTo(4);"><img
+                                    src="images/icons/stats.png" alt="" title=""/><span>İstatistikler</span></a></li>
                             <li class="yellow"><a href="#" onclick="swiperParent.swipeTo(6);"><img
                                     src="images/icons/about.png" alt="" title=""/><span>Profilim</span></a></li>
                         </ul>
@@ -178,7 +179,7 @@
             <div class="swiper-slide">
                 <div class="slide-inner">
                     <div class="pages_container">
-                        <h2 class="page_title">-Asistan Adı- Operasyonları</h2>
+                        <h2 class="page_title">Asistan Operasyonları</h2>
                         <ul class="posts" id="asistanOperasyonListesi"></ul>
                     </div>
                 </div>
@@ -197,8 +198,13 @@
 
                         <div class="form">
                             <form action="" method="post">
+                                <label>TC Kimlik No:</label>
+                                <input type="text" value="" class="form_input" id="tcKimlikNo" disabled>
                                 <label>Ad Soyad:</label>
                                 <input type="number" name="adiSoyadi" id="adiSoyadi" value=""
+                                       class="form_input txt requiredField"/>
+                                <label>E-Posta Adresi:</label>
+                                <input type="text" name="epostaAdresi" id="epostaAdresi" value=""
                                        class="form_input txt requiredField"/>
                                 <label>Doğum Tarihi:</label>
                                 <input type="date" name="dogumTarihi" id="dogumTarihi" value=""
