@@ -46,22 +46,62 @@
 </div>
 <script type="text/javascript" src="js/jquery-1.10.1.min.js"></script>
 <script type="text/javascript" charset="utf-8">
+    function tcKimlikNoDogrula( kimlikNo ){
+        kimlikNo = String(kimlikNo);
+        if( ! kimlikNo.match(/^[0-9]{11}$/) )
+            return false;
+
+        var num10 = parseInt(kimlikNo.substr(0, 10));
+
+        if(!(num10 % 1111111111))
+        {
+            return false;
+        }
+
+        pr1 = parseInt(kimlikNo.substr(0,1));
+        pr2 = parseInt(kimlikNo.substr(1,1));
+        pr3 = parseInt(kimlikNo.substr(2,1));
+        pr4 = parseInt(kimlikNo.substr(3,1));
+        pr5 = parseInt(kimlikNo.substr(4,1));
+        pr6 = parseInt(kimlikNo.substr(5,1));
+        pr7 = parseInt(kimlikNo.substr(6,1));
+        pr8 = parseInt(kimlikNo.substr(7,1));
+        pr9 = parseInt(kimlikNo.substr(8,1));
+        pr10 = parseInt(kimlikNo.substr(9,1));
+        pr11 = parseInt(kimlikNo.substr(10,1));
+
+        if( (pr1+pr3+pr5+pr7+pr9+pr2+pr4+pr6+pr8+pr10) % 10 != pr11 )
+            return false;
+        if( ( (pr1+pr3+pr5+pr7+pr9)*7 + (pr2+pr4+pr6+pr8)*9 ) % 10 != pr10 )
+            return false;
+        if( ( (pr1+pr3+pr5+pr7+pr9)*8) % 10 != pr11 )
+            return false;
+
+        return true;
+    }
+
     $('#girisYap').on('click', function(e){
         e.preventDefault();
 
-        if($('#kullaniciAdi').val() != '' && $('#kullaniciSifresi').val() != '')
+        if(!tcKimlikNoDogrula($('#kullaniciAdi').val()))
         {
-            $.post('login.aspx', {A: $('#kullaniciAdi').val(), B: $('#kullaniciSifresi').val()},
-                    function(dataJSON){
-                        if(dataJSON.Status == 'OK')
-                        {
-                            window.location.href = 'index.html';
-                        }
-                        else
-                        {
-                            alert(dataJSON.Message);
-                        }
-                    }, "jsonp");
+            alert('Kullanıcı adınız doğru değil.');
+        }
+        else{
+            if($('#kullaniciAdi').val() != '' && $('#kullaniciSifresi').val() != '')
+            {
+                $.post('login.aspx', {A: $('#kullaniciAdi').val(), B: $('#kullaniciSifresi').val()},
+                        function(dataJSON){
+                            if(dataJSON.Status == 'OK')
+                            {
+                                window.location.href = 'index.html';
+                            }
+                            else
+                            {
+                                alert(dataJSON.Message);
+                            }
+                        }, "jsonp");
+            }
         }
     });
 
@@ -107,22 +147,27 @@
         }
         else
         {
-            $.post('uyeol.aspx', {A: $('#tcNo').val(), B: $('#adSoyad').val(), C: $('#Mail').val(),
-                D: $('#Hastane').val(), E: $('#Klinik').val(), F: $('#Sifre').val()}, function(dataJSON){
+            if(!tcKimlikNoDogrula($('#tcNo').val()))
+            {
+                alert('TC Kimlik numaranız doğru değil.');
+            }
+            else {
+                $.post('uyeol.aspx', {A: $('#tcNo').val(), B: $('#adSoyad').val(), C: $('#Mail').val(),
+                    D: $('#Hastane').val(), E: $('#Klinik').val(), F: $('#Sifre').val()}, function (dataJSON) {
 
-                if(dataJSON.Status == 'OK')
-                {
-                    alert('Kaydınız gerçekleşti.');
+                    if (dataJSON.Status == 'OK') {
+                        alert('Kaydınız gerçekleşti.');
 
-                    $('#Iptal').click();
-                }
-                else
-                {
-                    alert(dataJSON.Message);
-                }
-            }, "jsonp");
+                        $('#Iptal').click();
+                    }
+                    else {
+                        alert(dataJSON.Message);
+                    }
+                }, "jsonp");
+            }
         }
     });
+    
 </script>
 </body>
 </html>
