@@ -95,6 +95,10 @@
                                     <option value="Yok">Yok</option>
                                     <option value="Var">Var</option>
                                 </select>
+                                <div style="display: none;">
+                                    <label>Komplikasyon Açıklaması</label>
+                                    <textarea id="komplikasyonAciklamasi"></textarea>
+                                </div>
                                 <input name="submit" type="submit" class="form_submit darkblue" value="Kaydet"
                                        id="yeniOperasyonEkle"/>
                             </form>
@@ -113,29 +117,7 @@
                 <div class="slide-inner">
                     <div class="pages_container">
                         <h2 class="page_title">Operasyon Listem</h2>
-                        <ul class="posts">
-                            <li class="post">
-                                <a href="#" class="post_more"></a>
-
-                                <div class="post_right_reveal">
-                                    <h4>Cerrahi Türü : ----<br>Vaka Türü : ----</h4>
-                                </div>
-                                <div class="post_right_unreveal">
-                                    <a class="post_comments" href="#" style="float: right;"
-                                       onclick="swiperParent.swipeTo(10);">Yorum</a>
-                                    <a class="post_comments" href="#" style="float: right;">Sil</a>
-                                    <a class="post_comments" href="#" style="float: right"
-                                       onclick="vakaDuzenle();">Düzenle</a>
-                                </div>
-
-                                <div class="post_left">
-                                    <span class="day">10</span>
-                                    <span class="month">Nisan</span>
-                                    <span class="year">2014</span>
-                                </div>
-
-                            </li>
-                        </ul>
+                        <ul class="posts" id="operasyonListesi"></ul>
                         <div id="loadMore">Daha fazla göster</div>
                         <div class="scrolltop radius20"><a href="#" class="scrolltop3"><img src="images/icons/top.png"
                                                                                             alt="Yukarı"
@@ -370,7 +352,6 @@
 <script type="text/javascript" src="js/idangerous.swiper-2.1.min.js"></script>
 <script type="text/javascript" src="js/idangerous.swiper.scrollbar-2.1.js"></script>
 <script type="text/javascript" src="js/jquery.tabify.js"></script>
-<script type="text/javascript" src="js/jquery.fitvids.js"></script>
 <script type="text/javascript" src="js/code.js"></script>
 <script type="text/javascript" src="js/load.js"></script>
 </body>

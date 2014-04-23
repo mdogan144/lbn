@@ -1,10 +1,17 @@
+var hataMesaji = 'Lütfen internet bağlantınızı kontrol edin.';
+
 $.ajaxSetup({
     timeout: 10000
 });
 
 $(document).ajaxError(function () {
-    alert('Lütfen internet bağlantınızı kontrol edin.');
+    alert(hataMesaji);
 });
+
+function sayfaVeIDDegistir(index, ID) {
+    $('#vakaID').val(ID);
+    swiperParent.swipeTo(index);
+}
 
 var $ = jQuery.noConflict();
 $(function () {
@@ -16,7 +23,6 @@ var swiperParent = new Swiper('.swiper-parent', {
     pagination: '.pagination',
     paginationClickable: true,
     onSlideChangeEnd: function () {
-        //Do something when you touch the slide
         if (swiperParent.activeIndex != 0) {
             $('#header').animate({'top': '0px'}, 400);
         }
@@ -45,6 +51,41 @@ var swiperNested1 = new Swiper('.swiper-nested1', {
         container: '.swiper-scrollbar1',
         hide: true,
         draggable: false
+    },
+    onInit: function(){
+        if($('#vakaID').val() == '0')
+        {
+            $('#cerrahiTarihi').val('');
+            $('#hastaYasi').val('');
+            $('#cerrahiPozisyon').val('');
+            $('#vakaTuru').val('');
+            $('#kullanilanTeknoloji').val('');
+            $('#Komplikasyon').val('Yok');
+            $('#komplikasyonAciklamasi').val('');
+
+            $('#Komplikasyon').change();
+        }
+        else
+        {
+            $.get('operasyon.aspx', {A: $('#vakaID').val()}, function(dataJSON){
+                if(dataJSON.Status != 'OK')
+                {
+                    alert('Belirtmiş olduğunuz operasyon bulunamadı. Operasyon silinmiş olabilir.');
+                }
+                else
+                {
+                    $('#cerrahiTarihi').val(dataJSON.cerrahiTarihi);
+                    $('#hastaYasi').val(dataJSON.hastaYasi);
+                    $('#cerrahiPozisyon').val(dataJSON.cerrahiPozisyon);
+                    $('#vakaTuru').val(dataJSON.vakaTuru);
+                    $('#kullanilanTeknoloji').val(dataJSON.kullanilanTeknoloji);
+                    $('#Komplikasyon').val(dataJSON.Komplikasyon);
+                    $('#komplikasyonAciklamasi').val(dataJSON.komplikasyonAciklamasi);
+
+                    $('#Komplikasyon').change();
+                }
+            }, "jsonp");
+        }
     }
 })
 var swiperNested2 = new Swiper('.swiper-nested2', {
@@ -56,6 +97,20 @@ var swiperNested2 = new Swiper('.swiper-nested2', {
         container: '.swiper-scrollbar2',
         hide: true,
         draggable: false
+    },
+    onInit: function () {
+        if ($('#operasyonListesi').html() != '') {
+            $.get('operasyonlistesi.aspx', function (dataJSON) {
+                if (dataJSON.length == 0) {
+                    $('#operasyonListesi').html('Kayıtlı operasyon bulunamadı.');
+                }
+                else {
+                    for (var i = 0; i < dataJSON.length; i++) {
+                        $('#operasyonListesi').append('<li class="post"><a href="#" class="post_more"></a><div class="post_right_reveal"><h4>Cerrahi Türü : ' + dataJSON[i].cerrahiTuru + '<br>Vaka Türü : ' + dataJSON[i].vakaTuru + '</h4></div><div class="post_right_unreveal"><a class="post_comments" href="#" style="float: right;" onclick="sayfaVeIDDegistir(10,' + dataJSON[i].vakaID + ');">Yorum</a><a class="post_comments" href="#" style="float: right;" class="vakaSil" data-vakaid="' + dataJSON[i].vakaID + '">Sil</a><a class="post_comments" href="#" style="float: right"onclick="sayfaVeIDDegistir(1, ' + dataJSON[i].vakaID + ');">Düzenle</a></div><div class="post_left"><span class="day">' + dataJSON[i].Gun + '</span><span class="month">' + dataJSON[i].Ay + '</span><span class="year">' + dataJSON[i].Yil + '</span></div></li>');
+                    }
+                }
+            }, "jsonp");
+        }
     }
 })
 var swiperNested3 = new Swiper('.swiper-nested3', {
@@ -135,6 +190,27 @@ var swiperNested9 = new Swiper('.swiper-nested9', {
         draggable: false
     }
 })
+var swiperNested10 = new Swiper('.swiper-nested10', {
+    scrollContainer: true,
+    mousewheelControl: true,
+    mode: 'vertical',
+//Enable Scrollbar
+    scrollbar: {
+        container: '.swiper-scrollbar10',
+        hide: true,
+        draggable: false
+    },
+    onInit: function () {
+        if ($('#vakaID').val() == '0') {
+            swiperParent.swipeTo(2);
+        }
+        else {
+            $.get('operasyonyorum.aspx', {A: $('#vakaID').val()}, function (dataJSON) {
+                $('#operasyonYorum').val(dataJSON.Yorum);
+            }, "jsonp");
+        }
+    }
+})
 var swiperNestedsingle = new Swiper('.swiper-nestedsingle', {
     scrollContainer: true,
     mousewheelControl: true,
@@ -184,7 +260,6 @@ jQuery(function ($) {
 });
 $(function () {
     $('#tabsmenu').tabify();
-    $(".videocontainer").fitVids();
     $(".toggle_container").hide();
     $(".toggle_container_blog").hide();
     $(".trigger").click(function () {
@@ -210,32 +285,53 @@ $('#yeniOperasyonEkle').on('click', function (e) {
     e.preventDefault();
 
     $.post("yeniekle.aspx", {A: $('#cerrahiTarihi').val(), B: $('#hastaYasi').val(), C: $('#cerrahiPozisyon').val(), D: $('#vakaTuru').val(),
-        E: $('#kullanilanTeknoloji').val(), F: $('#Komplikasyon').val(), E: $('#vakaID').val()}, function (dataJSON) {
+        E: $('#kullanilanTeknoloji').val(), F: $('#Komplikasyon').val(), G: $('#vakaID').val()}, function (dataJSON) {
 
         if (dataJSON.Status == 'OK') {
             alert('Yeni Operasyon başarı ile eklendi.');
 
-            if($('#vakaID').val() == '0')
-            {
+            if ($('#vakaID').val() == '0') {
                 $('#cerrahiTarihi').val('');
                 $('#hastaYasi').val('');
                 $('#cerrahiPozisyon').val('');
                 $('#vakaTuru').val('');
                 $('#kullanilanTeknoloji').val('');
-                $('#Komplikasyon').val('');
+                $('#Komplikasyon').val('Yok');
+                $('#komplikasyonAciklamasi').val('');
+
+                $('#Komplikasyon').change();
+                $('#operasyonListesi').html('');
             }
-            else
-            {
+            else {
                 alert(dataJSON.Message);
             }
         }
         else {
-            alert('Lütfen internet bağlantınızı kontrol edin.');
+            alert(hataMesaji);
         }
     }, "jsonp");
 });
 
-function vakaDuzenle()
-{
+$(document).on('click', '.vakaSil', function (e) {
+    e.preventDefault();
 
-}
+    $.get('vakasil.aspx', {A: $(this).data('vakaid')}, function (dataJSON) {
+        if (dataJSON.Status == 'OK') {
+            alert('Operasyon başarı ile silindi.');
+        }
+        else {
+            alert(hataMesaji);
+        }
+    })
+}, "jsonp");
+
+$('#Komplikasyon').on('change', function(){
+    if($(this).val() == 'Var')
+    {
+        $('#komplikasyonAciklamasi').parent().slideDown('fast');
+    }
+    else
+    {
+        $('#komplikasyonAciklamasi').parent().slideUp('fast');
+    }
+})
