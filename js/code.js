@@ -58,7 +58,7 @@ var swiperParent = new Swiper('.swiper-parent', {
             $('#uzmBasladigiYil').val(dataJSON.uzmBasladigiYil);
             $('#hastGirisYili').val(dataJSON.hastGirisYili);
 
-            $('#uyeTuru').val(dataJSON.uyeTuru);
+            $('#uyeTuru').val(dataJSON.DoctorRoleID);
         }, "jsonp");
     },
     onSlideChangeEnd: function () {
@@ -108,7 +108,7 @@ var swiperParent = new Swiper('.swiper-parent', {
             }
             else {
                 $.get(ip + '/Operation/getOperationDetail', {pOperationID: $('#vakaID').val()}, function (dataJSON) {
-                    if (dataJSON.success != 'true') {
+                    if (dataJSON.success != true) {
                         alert('Belirtmiş olduğunuz operasyon bulunamadı. Operasyon silinmiş olabilir.');
                     }
                     else {
@@ -216,7 +216,7 @@ var swiperParent = new Swiper('.swiper-parent', {
         }
         else if (swiperParent.activeIndex == 7) // operasyon yorumu
         {
-            if ($('#uyeTuru').val() == 'Assistant') {
+            if ($('#uyeTuru').val() == '2') {
                 $('#yorumKaydet').remove();
             }
 
@@ -391,7 +391,7 @@ $('#yeniOperasyonEkle').on('click', function (e) {
 
     var adres = $('#vakaID').val() == '0' ? 'createOperation' : 'updateOperation';
     $.post(ip + '/Operation/' + adres, {Date: $('#cerrahiTarihi').val(), PatientAge: $('#hastaYasi').val(), SurgeryPositionRef: $('#cerrahiPozisyon').val(), OperationTypeRef: $('#vakaTuru').val(), SurgeryTechnologyRef: $('#kullanilanTeknoloji').val(), ComplicationType: $('#Komplikasyon').val(), ComplicationDetail: $('#KomplikasyonAciklamasi').val(), ID: $('#vakaID').val()}, function (dataJSON) {
-        if (dataJSON.success == 'true') {
+        if (dataJSON.success == true) {
 
             if ($('#vakaID').val() == '0') {
                 alert('Yeni Operasyon başarı ile eklendi.');
@@ -422,7 +422,7 @@ $(document).on('click', '.vakaSil', function (e) {
     e.preventDefault();
 
     $.get(ip + '/Operation/deleteOperation', {ID: $(this).data('vakaid')}, function (dataJSON) {
-        if (dataJSON.success == 'true') {
+        if (dataJSON.success == true) {
             alert('Operasyon başarı ile silindi.');
         }
         else {
@@ -435,7 +435,7 @@ $(document).on('click', '.asistanKaldir', function (e) {
 
     // TODO : parametreler ve request adresi.
     $.get('asistanKaldir.aspx', {ID: $(this).data('asistanid')}, function (dataJSON) {
-        if (dataJSON.success == 'true') {
+        if (dataJSON.success == true) {
             alert('Asistan başarıyla kaldırıldı.');
         }
         else {
@@ -455,7 +455,7 @@ $('#yorumKaydet').on('click', function (e) {
     e.preventDefault();
 
     $.post("yorum.aspx", { A: $('#vakaID').val(), B: $('#operasyonYorum').val()}, function (dataJSON) {
-        if (dataJSON.success == 'success') {
+        if (dataJSON.success == true) {
             alert('Yorum başarıyla eklendi.');
         }
         else {
@@ -468,7 +468,7 @@ $('#profilGuncelle').on('click', function (e) {
 
     // TODO: parametreler
     $.post(ip + '/User/updateUser', { Name: $('#Adi').val(), Surname: $('#Soyadi').val(), Birthday: $('#dogumTarihi').val(), HospitalRef: $('#Hastane').val(), ClinicRef: $('#Klinik').val(), E: $('#uzmBasladigiYil').val(), F: $('#hastGirisYili').val(), G: $('#epostaAdresi').val()}, function (dataJSON) {
-        if (dataJSON.success == 'true') {
+        if (dataJSON.success == true) {
             alert('Profil başarıyla güncellendi.');
         }
         else {
@@ -502,7 +502,7 @@ $(document).on('click', '.istekGonder', function (e) {
     e.preventDefault();
 
     $.post('supervizor.aspx', {A: $(this).data('doktorid')}, function (dataJSON) {
-        if (dataJSON.success == 'true') {
+        if (dataJSON.success == true) {
             alert('Süpervizör isteğiniz gönderildi.');
         }
         else {
@@ -512,7 +512,7 @@ $(document).on('click', '.istekGonder', function (e) {
 });
 $(document).on('click', '#supervizorIptal', function () {
     $.get('supervizoriptal.aspx', function (dataJSON) {
-        if (dataJSON.success == 'true') {
+        if (dataJSON.success == true) {
             alert('İşlem başarı ile tamamlandı.');
         }
         else {

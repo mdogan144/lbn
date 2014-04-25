@@ -46,6 +46,8 @@
 </div>
 <script type="text/javascript" src="js/jquery-1.10.1.min.js"></script>
 <script type="text/javascript" charset="utf-8">
+    var ip = 'http://192.168.1.108:8888';
+
     function tcKimlikNoDogrula(kimlikNo) {
         kimlikNo = String(kimlikNo);
         if (!kimlikNo.match(/^[0-9]{11}$/))
@@ -90,7 +92,7 @@
                 $.post(ip + '/User/LoginUser', {pSSN: $('#kullaniciAdi').val(),
                             pPassword: $('#kullaniciSifresi').val()},
                         function (dataJSON) {
-                            if (dataJSON.success == 'true') {
+                            if (dataJSON.success == true) {
                                 window.location.href = 'index.html';
                             }
                             else {
@@ -145,7 +147,7 @@
                 $.post('uyeol.aspx', {A: $('#tcNo').val(), B: $('#adSoyad').val(), C: $('#Mail').val(),
                     D: $('#Hastane').val(), E: $('#Klinik').val(), F: $('#Sifre').val()}, function (dataJSON) {
 
-                    if (dataJSON.success == 'true') {
+                    if (dataJSON.success == true) {
                         alert('Kaydınız gerçekleşti.');
 
                         $('#Iptal').click();
