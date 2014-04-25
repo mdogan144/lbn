@@ -30,10 +30,10 @@
             <input type="number" id="tcNo" class="form_input" placeholder="TC Kimlik Numaranız">
             <input type="text" id="adSoyad" class="form_input" placeholder="Adınız Soyadınız">
             <input type="email" id="Mail" class="form_input" placeholder="E-posta Adresiniz">
-            <select name="Hastane" id="Hastane">
+            <select class="select" name="Hastane" id="Hastane">
                 <option value="0">Çalıştığınız Hastane</option>
             </select>
-            <select name="Klinik" id="Klinik">
+            <select class="select" name="Klinik" id="Klinik">
                 <option value="0">Klinik</option>
             </select>
             <input type="password" id="Sifre" class="form_input" placeholder="Şifreniz">
@@ -87,7 +87,7 @@
         }
         else {
             if ($('#kullaniciAdi').val() != '' && $('#kullaniciSifresi').val() != '') {
-                $.post('login.aspx', {A: $('#kullaniciAdi').val(), B: $('#kullaniciSifresi').val()},
+                $.post(ip + '/User/', {A: $('#kullaniciAdi').val(), B: $('#kullaniciSifresi').val()},
                         function (dataJSON) {
                             if (dataJSON.success == 'true') {
                                 window.location.href = 'index.html';

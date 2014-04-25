@@ -163,6 +163,7 @@ li.table_row{width:100%; float:left; clear:both; line-height:30px;padding:0px; l
 .form label{padding:0 0 3px 0; display:block; font-size:16px;font-weight:normal;}
 .form label.error{padding:10px 0 0 0; width:100%; text-align:left; font-size:14px;}
 .form_input{padding:3%; width:93%; margin:0 0 5px 0;}
+.select{padding:3%; width:100%; margin:0 0 5px 0;}
 .form_textarea{padding:3%; width:93%; height:50px; margin:0 0 5px 0;}
 .form_submit{ width:100%;padding:4% 0 4% 0; margin:0; font-weight:normal;text-align:center;
 cursor:pointer; font-size:20px; border-left: none;border-right: none;border-top: none; cursor:pointer;
@@ -296,7 +297,7 @@ li.table_row{background-color:#353535;}
 .tweet li{border:none; background-color:#035792;}
 
 .form label.error{color:#990000;}
-.form_input, .form_textarea{border:1px #fff solid; background-color:#FFFFFF;}
+.form_input, .form_textarea, .select{border:1px #fff solid; background-color:#FFFFFF;}
 .form_submit{color:#fff;border-bottom: none;}
 
 ul.social li{ -webkit-border-radius: 200px;-moz-border-radius: 200px;border-radius: 200px;}

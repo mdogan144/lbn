@@ -216,7 +216,7 @@ var swiperParent = new Swiper('.swiper-parent', {
         }
         else if (swiperParent.activeIndex == 7) // operasyon yorumu
         {
-            if ($('#uyeTuru').val() == 'Asistan') {
+            if ($('#uyeTuru').val() == 'Assistant') {
                 $('#yorumKaydet').remove();
             }
 

@@ -72,31 +72,23 @@
                                 <input type="number" name="hastaYasi" id="hastaYasi" value=""
                                        class="form_input txt requiredField"/>
                                 <label>Cerrahi Pozisyon:</label>
-                                <select name="cerrahiPozisyon" id="cerrahiPozisyon">
+                                <select class="select" name="cerrahiPozisyon" id="cerrahiPozisyon">
                                     <option></option>
                                 </select>
                                 <label>Vaka Türü:</label>
-                                <select name="vakaTuru" id="vakaTuru" class="vakaTuru">
-                                    <optgroup label="Vaka Grubu">
-                                        <option>A</option>
-                                        <optgroup label="&nbsp;&nbsp;&nbsp;&nbsp;Vaka Grubu 3"><option>&nbsp;&nbsp;&nbsp;&nbsp;C</option></optgroup>
-                                    </optgroup>
-                                    <optgroup label="Vaka Grubu 2">
-                                        <option>B</option>
-                                    </optgroup>
-                                </select>
+                                <select class="select" name="vakaTuru" id="vakaTuru" class="vakaTuru"></select>
                                 <label>Kullanılan Teknoloji:</label>
-                                <select name="kullanilanTeknoloji" id="kullanilanTeknoloji">
+                                <select class="select" name="kullanilanTeknoloji" id="kullanilanTeknoloji">
                                     <option></option>
                                 </select>
                                 <label>Komplikasyon:</label>
-                                <select name="Komplikasyon" id="Komplikasyon">
+                                <select class="select" name="Komplikasyon" id="Komplikasyon">
                                     <option value="Yok">Yok</option>
                                     <option value="Var">Var</option>
                                 </select>
                                 <div style="display: none;">
                                     <label>Komplikasyon Açıklaması</label>
-                                    <textarea id="komplikasyonAciklamasi"></textarea>
+                                    <textarea class="form_textarea" id="komplikasyonAciklamasi"></textarea>
                                 </div>
                                 <input name="submit" type="submit" class="form_submit darkblue" value="Kaydet"
                                        id="yeniOperasyonEkle"/>
@@ -117,7 +109,7 @@
                     <div class="pages_container">
                         <h2 class="page_title">Operasyon Listem</h2>
                         <ul class="posts" id="operasyonListesi"></ul>
-                        <div id="loadMore">Daha fazla göster</div>
+                        <!--<div id="loadMore">Daha fazla göster</div>!-->
                         <div class="scrolltop radius20"><a href="#" class="scrolltop3"><img src="images/icons/top.png"
                                                                                             alt="Yukarı"
                                                                                             title="Yukarı"/></a>
@@ -213,9 +205,9 @@
                                 <input type="date" name="dogumTarihi" id="dogumTarihi" value=""
                                        class="form_input txt requiredField"/>
                                 <label>Hastane:</label>
-                                <select name="Hastane" id="Hastane"></select>
+                                <select class="select" name="Hastane" id="Hastane"></select>
                                 <label>Klinik:</label>
-                                <select name="Klinik" id="Klinik"></select>
+                                <select class="select" name="Klinik" id="Klinik"></select>
                                 <label>Uzm. Başladığı Yıl:</label>
                                 <input type="number" name="uzmBasladigiYil" id="uzmBasladigiYil" value=""
                                        class="form_input txt requiredField"/>
@@ -245,7 +237,7 @@
                         <div class="form">
                             <form action="" method="post">
                                 <label>Yorum:</label>
-                                <textarea name="Yorum" id="operasyonYorum" class="form_textarea txtarea requiredField"
+                                <textarea class="form_textarea" name="Yorum" id="operasyonYorum" class="form_textarea txtarea requiredField"
                                           rows="" cols="" style="height: 250px;"></textarea>
                                 <input name="submit" type="submit" id="yorumKaydet" class="form_submit darkblue" value="Kaydet"/>
                             </form>
