@@ -1,5 +1,5 @@
 var hataMesaji = 'Lütfen internet bağlantınızı kontrol ediniz.';
-var ip = 'http://192.168.1.108:8080';
+var ip = 'http://192.168.1.108:8888';
 
 $.ajaxSetup({
     timeout: 10000
