@@ -1,5 +1,6 @@
 var hataMesaji = 'Lütfen internet bağlantınızı kontrol ediniz.';
 var ip = 'http://192.168.1.108:8888';
+var asistanID = '2';
 
 $.ajaxSetup({
     timeout: 10000
@@ -14,6 +15,15 @@ function tarihiParcala(Tarih) {
     var parsedTarih = new Array();
 
     return parsedTarih;
+}
+
+function tarihYap(Tarih)
+{
+    var sTarih = new Date(parseInt(Tarih.substr(6)));
+    var gun    = ("0" + sTarih.getDate()).slice(-2);
+    var ay     = ("0" + (sTarih.getMonth() + 1)).slice(-2);
+
+    return sTarih.getFullYear() + "-" + (ay) + "-" + (gun);
 }
 
 function selectboxDegistir() {
@@ -59,6 +69,10 @@ var swiperParent = new Swiper('.swiper-parent', {
             $('#hastGirisYili').val(dataJSON.hastGirisYili);
 
             $('#uyeTuru').val(dataJSON.DoctorRoleID);
+
+            if ($('#uyeTuru').val() == asistanID) {
+                $('.asistandaGizli').hide();
+            }
         }, "jsonp");
     },
     onSlideChangeEnd: function () {
@@ -69,14 +83,15 @@ var swiperParent = new Swiper('.swiper-parent', {
             $('#header').animate({'top': '-100px'}, 400);
         }
 
-        if (swiperParent.activeIndex == 1) {
+        console.log(swiperParent.activeIndex);
+
+        if (swiperParent.activeIndex == 1) { // Operasyon Ekle
             if ($('#kullanilanTeknoloji').html() == '') {
-                // TODO: Request adresi ve parametreler değiştirilecek.
-                $.get(ip + '/Operation/getTechnologiesList', function (dataJSON) {
+                $.get(ip + '/Operation/getSurgeryTechnologiesList', function (dataJSON) {
                     for (var i = 0; i < dataJSON.length; i++) {
                         $('#kullanilanTeknoloji').append('<option value="' + dataJSON[i].ID + '">' + dataJSON[i].Name + '</option>');
                     }
-                });
+                }, "jsonp");
             }
 
             if ($('#vakaTuru').html() == '') {
@@ -84,18 +99,19 @@ var swiperParent = new Swiper('.swiper-parent', {
                     for (var i = 0; i < dataJSON.length; i++) {
                         $('#vakaTuru').append('<option value="' + dataJSON[i].ID + '">' + dataJSON[i].Name + '</option>');
                     }
-                });
+                }, "jsonp");
             }
 
             if ($('#cerrahiPozisyon').html() == '') {
-                $.get(ip + '/SurgeryPosition/getSurgeryPositionsList', function (dataJSON) {
+                $.get(ip + '/Operation/getSurgeryPositionsList', function (dataJSON) {
                     for (var i = 0; i < dataJSON.length; i++) {
                         $('#cerrahiPozisyon').append('<option value="' + dataJSON[i].ID + '">' + dataJSON[i].Name + '</option>');
                     }
-                });
+                }, "jsonp");
             }
 
             if ($('#vakaID').val() == '0') {
+                $('#operasyonBaslik').html('Yeni Operasyon Ekle');
                 $('#cerrahiTarihi').val('');
                 $('#hastaYasi').val('');
                 $('#cerrahiPozisyon').val('');
@@ -107,26 +123,27 @@ var swiperParent = new Swiper('.swiper-parent', {
                 selectboxDegistir();
             }
             else {
+                $('#operasyonBaslik').html('Operasyonu Düzenle');
                 $.get(ip + '/Operation/getOperationDetail', {pOperationID: $('#vakaID').val()}, function (dataJSON) {
-                    if (dataJSON.success != true) {
-                        alert('Belirtmiş olduğunuz operasyon bulunamadı. Operasyon silinmiş olabilir.');
+                    // TODO: date formatına bakılacak.
+                    $('#cerrahiTarihi').val(tarihYap(dataJSON.Date));
+                    $('#hastaYasi').val(dataJSON.PatientAge);
+                    $('#cerrahiPozisyon').val(dataJSON.SurgeryPositionRef);
+                    $('#vakaTuru').val(dataJSON.OperationTypeRef);
+                    $('#kullanilanTeknoloji').val(dataJSON.SurgeryTechnologyRef);
+                    //$('#Komplikasyon').val(dataJSON.ComplicationType);
+                    if(dataJSON.ComplicationDetail != '')
+                    {
+                        $('#Komplikasyon').val('Var');
                     }
-                    else {
-                        $('#cerrahiTarihi').val(dataJSON.Date);
-                        $('#hastaYasi').val(dataJSON.PatientAge);
-                        $('#cerrahiPozisyon').val(dataJSON.SurgeryPositionRef);
-                        $('#vakaTuru').val(dataJSON.OperationTypeRef);
-                        $('#kullanilanTeknoloji').val(dataJSON.SurgeryTechnologyRef);
-                        $('#Komplikasyon').val(dataJSON.ComplicationType);
-                        $('#komplikasyonAciklamasi').val(dataJSON.ComplicationDetail);
+                    $('#komplikasyonAciklamasi').val(dataJSON.ComplicationDetail);
 
-                        selectboxDegistir();
-                    }
+                    selectboxDegistir();
                 }, "jsonp");
             }
         }
-        else if (swiperParent.activeIndex == 2) {
-            if ($('#operasyonListesi').html() != '') {
+        else if (swiperParent.activeIndex == 2) { // Operasyon Listesi
+            if ($('#operasyonListesi').html() == '') {
                 $.get(ip + '/Operation/getOperationsList', function (dataJSON) {
                     if (dataJSON.length == 0) {
                         $('#operasyonListesi').html('<li>Kayıtlı operasyon bulunamadı.</li>');
@@ -141,7 +158,7 @@ var swiperParent = new Swiper('.swiper-parent', {
                 }, "jsonp");
             }
         }
-        else if (swiperParent.activeIndex == 3) {
+        else if (swiperParent.activeIndex == 3) { // Asistan Listesi
             // TODO: Request adresi değiştirilecek.
             $.get(ip + '/User/getAssistantsList', function (dataJSON) {
                 if (dataJSON.length == 0) {
@@ -154,7 +171,7 @@ var swiperParent = new Swiper('.swiper-parent', {
                 }
             }, "jsonp");
         }
-        else if (swiperParent.activeIndex == 4) {
+        else if (swiperParent.activeIndex == 4) { // İstatistikler
             if ($('#istatistikCache').val() == '0') {
                 var renkler = ["yellow", "red", "purple", "blue", "orange", "bluegreen"];
 
@@ -200,7 +217,7 @@ var swiperParent = new Swiper('.swiper-parent', {
                 }, "jsonp");
             }
         }
-        else if (swiperParent.activeIndex == 5) {
+        else if (swiperParent.activeIndex == 5) { // Asistan Operasyonları
             // TODO : Request adresi tanımlanacak. Asistan Adı AssistantName olarak yazıldı.
             $.get('asistanOperasyonlarim.aspx', function (dataJSON) {
                 if (dataJSON.length == 0) {
@@ -214,9 +231,9 @@ var swiperParent = new Swiper('.swiper-parent', {
                 }
             }, "jsonp");
         }
-        else if (swiperParent.activeIndex == 7) // operasyon yorumu
+        else if (swiperParent.activeIndex == 7) // Operasyon Yorumu
         {
-            if ($('#uyeTuru').val() == '2') {
+            if ($('#uyeTuru').val() == asistanID) {
                 $('#yorumKaydet').remove();
             }
 
@@ -381,7 +398,7 @@ $('.gohome').click(function () {
     swiperParent.swipeTo(0);
 });
 $(function () {
-    $(".post_more").click(function () {
+    $(document).on('click', '.post_more', function () {
         $(this).toggleClass("activep").next().slideToggle("slow");
         return false;
     });
@@ -389,34 +406,39 @@ $(function () {
 $('#yeniOperasyonEkle').on('click', function (e) {
     e.preventDefault();
 
-    var adres = $('#vakaID').val() == '0' ? 'createOperation' : 'updateOperation';
-    $.post(ip + '/Operation/' + adres, {Date: $('#cerrahiTarihi').val(), PatientAge: $('#hastaYasi').val(), SurgeryPositionRef: $('#cerrahiPozisyon').val(), OperationTypeRef: $('#vakaTuru').val(), SurgeryTechnologyRef: $('#kullanilanTeknoloji').val(), ComplicationType: $('#Komplikasyon').val(), ComplicationDetail: $('#KomplikasyonAciklamasi').val(), ID: $('#vakaID').val()}, function (dataJSON) {
-        if (dataJSON.success == true) {
+    if ($('#cerrahiTarihi').val() == '') {
+        alert('Tarihi belirtmeniz gerekmektedir.');
+    }
+    else {
+        var adres = $('#vakaID').val() == '0' ? 'createOperation' : 'updateOperation';
+        $.post(ip + '/Operation/' + adres, {Date: $('#cerrahiTarihi').val(), PatientAge: $('#hastaYasi').val(), SurgeryPositionRef: $('#cerrahiPozisyon').val(), OperationTypeRef: $('#vakaTuru').val(), SurgeryTechnologyRef: $('#kullanilanTeknoloji').val(), ComplicationType: $('#Komplikasyon').val(), ComplicationDetail: $('#komplikasyonAciklamasi').val(), ID: $('#vakaID').val()}, function (dataJSON) {
+            if (dataJSON.success == true) {
 
-            if ($('#vakaID').val() == '0') {
-                alert('Yeni Operasyon başarı ile eklendi.');
+                if ($('#vakaID').val() == '0') {
+                    alert('Yeni Operasyon başarı ile eklendi.');
 
-                $('#cerrahiTarihi').val('');
-                $('#hastaYasi').val('');
-                $('#cerrahiPozisyon').val('');
-                $('#vakaTuru').val('');
-                $('#kullanilanTeknoloji').val('');
-                $('#Komplikasyon').val('Yok');
-                $('#komplikasyonAciklamasi').val('');
+                    $('#cerrahiTarihi').val('');
+                    $('#hastaYasi').val('');
+                    $('#cerrahiPozisyon').val('');
+                    $('#vakaTuru').val('');
+                    $('#kullanilanTeknoloji').val('');
+                    $('#Komplikasyon').val('Yok');
+                    $('#komplikasyonAciklamasi').val('');
 
-                $('#operasyonListesi').html('');
-                $('#istatistikCache').val('0');
+                    $('#operasyonListesi').html('');
+                    $('#istatistikCache').val('0');
 
-                selectboxDegistir();
+                    selectboxDegistir();
+                }
+                else {
+                    alert('Operasyon başarı ile düzenlendi.');
+                }
             }
             else {
-                alert('Operasyon başarı ile düzenlendi.');
+                alert('Teknik bir hata oluştu. Daha sonra tekrar deneyin.');
             }
-        }
-        else {
-            alert(dataJSON.Message);
-        }
-    }, "jsonp");
+        }, "jsonp");
+    }
 });
 $(document).on('click', '.vakaSil', function (e) {
     e.preventDefault();
@@ -441,8 +463,8 @@ $(document).on('click', '.asistanKaldir', function (e) {
         else {
             alert(hataMesaji);
         }
-    })
-}, "jsonp");
+    }, "jsonp")
+});
 $('#Komplikasyon').on('change', function () {
     if ($(this).val() == 'Var') {
         $('#komplikasyonAciklamasi').parent().slideDown('fast');
@@ -518,5 +540,5 @@ $(document).on('click', '#supervizorIptal', function () {
         else {
             alert(hataMesaji);
         }
-    });
+    }, "jsonp");
 });

@@ -36,9 +36,9 @@
                             </li>
                             <li class="bluegreen"><a href="#" onclick="swiperParent.swipeTo(2);"><img
                                     src="images/icons/menu.png" alt="" title=""/><span>Operasyon Listem</span></a></li>
-                            <li class="blue"><a href="#" onclick="swiperParent.swipeTo(3);"><img
+                            <li class="blue asistandaGizli"><a href="#" onclick="swiperParent.swipeTo(3);"><img
                                     src="images/icons/clients.png" alt="" title=""/><span>Asistanlarım</span></a></li>
-                            <li class="purple"><a href="#" onclick="swiperParent.swipeTo(5);"><img
+                            <li class="purple asistandaGizli"><a href="#" onclick="swiperParent.swipeTo(5);"><img
                                     src="images/icons/blog.png" alt="" title=""/><span>Asistan Operasyonları</span></a>
                             </li>
                             <li class="pink"><a href="#" onclick="swiperParent.swipeTo(4);"><img
@@ -60,7 +60,7 @@
             <div class="swiper-slide">
                 <div class="slide-inner">
                     <div class="pages_container">
-                        <h2 class="page_title">Yeni Operasyon Ekle</h2>
+                        <h2 class="page_title" id="operasyonBaslik">Yeni Operasyon Ekle</h2>
 
                         <div class="form">
                             <form action="" method="post">
@@ -72,15 +72,11 @@
                                 <input type="number" name="hastaYasi" id="hastaYasi" value=""
                                        class="form_input txt requiredField"/>
                                 <label>Cerrahi Pozisyon:</label>
-                                <select class="select" name="cerrahiPozisyon" id="cerrahiPozisyon">
-                                    <option></option>
-                                </select>
+                                <select class="select" name="cerrahiPozisyon" id="cerrahiPozisyon"></select>
                                 <label>Vaka Türü:</label>
                                 <select class="select" name="vakaTuru" id="vakaTuru" class="vakaTuru"></select>
                                 <label>Kullanılan Teknoloji:</label>
-                                <select class="select" name="kullanilanTeknoloji" id="kullanilanTeknoloji">
-                                    <option></option>
-                                </select>
+                                <select class="select" name="kullanilanTeknoloji" id="kullanilanTeknoloji"></select>
                                 <label>Komplikasyon:</label>
                                 <select class="select" name="Komplikasyon" id="Komplikasyon">
                                     <option value="Yok">Yok</option>
