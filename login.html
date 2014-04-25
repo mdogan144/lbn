@@ -18,86 +18,81 @@
 </head>
 <body>
 <div class="swiper-container swiper-parent blue">
-<div class="login">
-    <div class="login_logo">Operasyon Günlüğüm</div>
-    <div class="form" id="loginDiv">
-        <input type="number" id="kullaniciAdi" class="form_input" placeholder="TC No">
-        <input type="password" id="kullaniciSifresi" class="form_input" placeholder="Şifre">
-        <input type="submit" value="Giriş" id="girisYap" class="form_submit">
-        <input type="submit" value="Kayıt Ol" id="kayitOl" class="form_submit" style="margin-top: 8px;">
+    <div class="login">
+        <div class="login_logo">Operasyon Günlüğüm</div>
+        <div class="form" id="loginDiv">
+            <input type="number" id="kullaniciAdi" class="form_input" placeholder="TC No">
+            <input type="password" id="kullaniciSifresi" class="form_input" placeholder="Şifre">
+            <input type="submit" value="Giriş" id="girisYap" class="form_submit">
+            <input type="submit" value="Kayıt Ol" id="kayitOl" class="form_submit" style="margin-top: 8px;">
+        </div>
+        <div class="form" id="uyeOlDiv" style="display: none;">
+            <input type="number" id="tcNo" class="form_input" placeholder="TC Kimlik Numaranız">
+            <input type="text" id="adSoyad" class="form_input" placeholder="Adınız Soyadınız">
+            <input type="email" id="Mail" class="form_input" placeholder="E-posta Adresiniz">
+            <select name="Hastane" id="Hastane">
+                <option value="0">Çalıştığınız Hastane</option>
+            </select>
+            <select name="Klinik" id="Klinik">
+                <option value="0">Klinik</option>
+            </select>
+            <input type="password" id="Sifre" class="form_input" placeholder="Şifreniz">
+            <input type="password" id="sifreTekrar" class="form_input" placeholder="Şifreniz Tekrar">
+            <input type="submit" value="Kayıt Ol" id="uyeOl" class="form_submit">
+            <input type="submit" value="İptal" id="Iptal" class="form_submit" style="margin-top: 8px;">
+        </div>
+        <div class="clearfix"></div>
     </div>
-    <div class="form" id="uyeOlDiv" style="display: none;">
-        <input type="number" id="tcNo" class="form_input" placeholder="TC Kimlik Numaranız">
-        <input type="text" id="adSoyad" class="form_input" placeholder="Adınız Soyadınız">
-        <input type="email" id="Mail" class="form_input" placeholder="E-posta Adresiniz">
-        <select name="Hastane" id="Hastane">
-            <option value="0">Çalıştığınız Hastane</option>
-        </select>
-        <select name="Klinik" id="Klinik">
-            <option value="0">Klinik</option>
-        </select>
-        <input type="password" id="Sifre" class="form_input" placeholder="Şifreniz">
-        <input type="password" id="sifreTekrar" class="form_input" placeholder="Şifreniz Tekrar">
-        <input type="submit" value="Kayıt Ol" id="uyeOl" class="form_submit">
-        <input type="submit" value="İptal" id="Iptal" class="form_submit" style="margin-top: 8px;">
-    </div>
-    <div class="clearfix"></div>
-</div>
 </div>
 <script type="text/javascript" src="js/jquery-1.10.1.min.js"></script>
 <script type="text/javascript" charset="utf-8">
-    function tcKimlikNoDogrula( kimlikNo ){
+    function tcKimlikNoDogrula(kimlikNo) {
         kimlikNo = String(kimlikNo);
-        if( ! kimlikNo.match(/^[0-9]{11}$/) )
+        if (!kimlikNo.match(/^[0-9]{11}$/))
             return false;
 
         var num10 = parseInt(kimlikNo.substr(0, 10));
 
-        if(!(num10 % 1111111111))
-        {
+        if (!(num10 % 1111111111)) {
             return false;
         }
 
-        pr1 = parseInt(kimlikNo.substr(0,1));
-        pr2 = parseInt(kimlikNo.substr(1,1));
-        pr3 = parseInt(kimlikNo.substr(2,1));
-        pr4 = parseInt(kimlikNo.substr(3,1));
-        pr5 = parseInt(kimlikNo.substr(4,1));
-        pr6 = parseInt(kimlikNo.substr(5,1));
-        pr7 = parseInt(kimlikNo.substr(6,1));
-        pr8 = parseInt(kimlikNo.substr(7,1));
-        pr9 = parseInt(kimlikNo.substr(8,1));
-        pr10 = parseInt(kimlikNo.substr(9,1));
-        pr11 = parseInt(kimlikNo.substr(10,1));
+        pr1 = parseInt(kimlikNo.substr(0, 1));
+        pr2 = parseInt(kimlikNo.substr(1, 1));
+        pr3 = parseInt(kimlikNo.substr(2, 1));
+        pr4 = parseInt(kimlikNo.substr(3, 1));
+        pr5 = parseInt(kimlikNo.substr(4, 1));
+        pr6 = parseInt(kimlikNo.substr(5, 1));
+        pr7 = parseInt(kimlikNo.substr(6, 1));
+        pr8 = parseInt(kimlikNo.substr(7, 1));
+        pr9 = parseInt(kimlikNo.substr(8, 1));
+        pr10 = parseInt(kimlikNo.substr(9, 1));
+        pr11 = parseInt(kimlikNo.substr(10, 1));
 
-        if( (pr1+pr3+pr5+pr7+pr9+pr2+pr4+pr6+pr8+pr10) % 10 != pr11 )
+        if ((pr1 + pr3 + pr5 + pr7 + pr9 + pr2 + pr4 + pr6 + pr8 + pr10) % 10 != pr11)
             return false;
-        if( ( (pr1+pr3+pr5+pr7+pr9)*7 + (pr2+pr4+pr6+pr8)*9 ) % 10 != pr10 )
+        if (( (pr1 + pr3 + pr5 + pr7 + pr9) * 7 + (pr2 + pr4 + pr6 + pr8) * 9 ) % 10 != pr10)
             return false;
-        if( ( (pr1+pr3+pr5+pr7+pr9)*8) % 10 != pr11 )
+        if (( (pr1 + pr3 + pr5 + pr7 + pr9) * 8) % 10 != pr11)
             return false;
 
         return true;
     }
 
-    $('#girisYap').on('click', function(e){
+    $('#girisYap').on('click', function (e) {
         e.preventDefault();
 
-        if(!tcKimlikNoDogrula($('#kullaniciAdi').val()))
-        {
+        if (!tcKimlikNoDogrula($('#kullaniciAdi').val())) {
             alert('Kullanıcı adınız doğru değil.');
         }
-        else{
-            if($('#kullaniciAdi').val() != '' && $('#kullaniciSifresi').val() != '')
-            {
+        else {
+            if ($('#kullaniciAdi').val() != '' && $('#kullaniciSifresi').val() != '') {
                 $.post('login.aspx', {A: $('#kullaniciAdi').val(), B: $('#kullaniciSifresi').val()},
-                        function(dataJSON){
-                            if(dataJSON.Status == 'OK')
-                            {
+                        function (dataJSON) {
+                            if (dataJSON.success == 'true') {
                                 window.location.href = 'index.html';
                             }
-                            else
-                            {
+                            else {
                                 alert(dataJSON.Message);
                             }
                         }, "jsonp");
@@ -105,32 +100,29 @@
         }
     });
 
-    $('#kayitOl').on('click', function(e){
+    $('#kayitOl').on('click', function (e) {
         e.preventDefault();
 
         $('#loginDiv').slideUp('fast');
         $('#uyeOlDiv').slideDown('slow');
     });
 
-    $('#Iptal').on('click', function(e){
+    $('#Iptal').on('click', function (e) {
         e.preventDefault();
 
         $('#uyeOlDiv').slideUp('fast');
         $('#loginDiv').slideDown('slow');
     });
 
-    $('#Hastane').on('change', function(){
-        if($(this).val() == '0')
-        {
+    $('#Hastane').on('change', function () {
+        if ($(this).val() == '0') {
             $('#Klinik').html('');
         }
-        else
-        {
-            $.get('klinikler.aspx', {A: $('#Hastane').val()}, function(dataJSON){
+        else {
+            $.get('klinikler.aspx', {A: $('#Hastane').val()}, function (dataJSON) {
                 $('#Klinik').html('');
 
-                for(var i = 0; i < dataJSON.length; i++)
-                {
+                for (var i = 0; i < dataJSON.length; i++) {
                     $('#Klinik').append('<option value="' + dataJSON[i].KlinikID + '">' + dataJSON[i].KlinikAdi +
                             '</option>');
                 }
@@ -138,24 +130,21 @@
         }
     });
 
-    $('#uyeOl').on('click', function(e){
+    $('#uyeOl').on('click', function (e) {
         e.preventDefault();
 
-        if($('#Sifre').val() != $('#sifreTekrar').val())
-        {
+        if ($('#Sifre').val() != $('#sifreTekrar').val()) {
             alert('Şifreler birbirleriyle aynı değil.');
         }
-        else
-        {
-            if(!tcKimlikNoDogrula($('#tcNo').val()))
-            {
+        else {
+            if (!tcKimlikNoDogrula($('#tcNo').val())) {
                 alert('TC Kimlik numaranız doğru değil.');
             }
             else {
                 $.post('uyeol.aspx', {A: $('#tcNo').val(), B: $('#adSoyad').val(), C: $('#Mail').val(),
                     D: $('#Hastane').val(), E: $('#Klinik').val(), F: $('#Sifre').val()}, function (dataJSON) {
 
-                    if (dataJSON.Status == 'OK') {
+                    if (dataJSON.success == 'true') {
                         alert('Kaydınız gerçekleşti.');
 
                         $('#Iptal').click();
@@ -167,7 +156,7 @@
             }
         }
     });
-    
+
 </script>
 </body>
 </html>
