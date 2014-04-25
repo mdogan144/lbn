@@ -28,13 +28,20 @@
         </div>
         <div class="form" id="uyeOlDiv" style="display: none;">
             <input type="number" id="tcNo" class="form_input" placeholder="TC Kimlik Numaranız">
-            <input type="text" id="adSoyad" class="form_input" placeholder="Adınız Soyadınız">
+            <input type="text" id="Adi" class="form_input" placeholder="Adınız">
+            <input type="text" id="Soyadi" class="form_input" placeholder="Soyadınız">
             <input type="email" id="Mail" class="form_input" placeholder="E-posta Adresiniz">
             <select class="select" name="Hastane" id="Hastane">
                 <option value="0">Çalıştığınız Hastane</option>
             </select>
             <select class="select" name="Klinik" id="Klinik">
                 <option value="0">Klinik</option>
+            </select>
+            <select class="select" name="uzmanlik" id="uzmanlikAlani">
+                <option value="0">Uzmanlığınız</option>
+            </select>
+            <select class="select" name="Unvan" id="Unvan">
+                <option value="0">Ünvanınız</option>
             </select>
             <input type="password" id="Sifre" class="form_input" placeholder="Şifreniz">
             <input type="password" id="sifreTekrar" class="form_input" placeholder="Şifreniz Tekrar">
@@ -46,9 +53,31 @@
 </div>
 <script type="text/javascript" src="js/jquery-1.10.1.min.js"></script>
 <script type="text/javascript" charset="utf-8">
+
     var ip = 'http://192.168.1.108:8888';
 
+    $(document).on('ready', function(){
+        $.get(ip + '/User/getHospitalsList', function (data) {
+            for (var i = 0; i < data.length; i++) {
+                $('#Hastane').append('<option value="' + data[i].ID + '">' + data[i].Name + '</option>');
+            }
+        }, "jsonp");
+
+        $.get(ip + '/User/getProvincesList', function (data) {
+            for (var i = 0; i < data.length; i++) {
+                $('#uzmanlikAlani').append('<option value="' + data[i].ID + '">' + data[i].Name + '</option>');
+            }
+        }, "jsonp");
+
+        $.get(ip + '/User/getDoctorRolesList', function (data) {
+            for (var i = 0; i < data.length; i++) {
+                $('#Unvan').append('<option value="' + data[i].ID + '">' + data[i].Name + '</option>');
+            }
+        }, "jsonp");
+    });
+
     function tcKimlikNoDogrula(kimlikNo) {
+        
         kimlikNo = String(kimlikNo);
         if (!kimlikNo.match(/^[0-9]{11}$/))
             return false;
@@ -89,7 +118,7 @@
         }
         else {
             if ($('#kullaniciAdi').val() != '' && $('#kullaniciSifresi').val() != '') {
-                $.post(ip + '/User/LoginUser', {pSSN: $('#kullaniciAdi').val(),
+                $.post(ip + '/User/loginUser', {pSSN: $('#kullaniciAdi').val(),
                             pPassword: $('#kullaniciSifresi').val()},
                         function (dataJSON) {
                             if (dataJSON.success == true) {
@@ -122,11 +151,11 @@
             $('#Klinik').html('');
         }
         else {
-            $.get('klinikler.aspx', {A: $('#Hastane').val()}, function (dataJSON) {
+            $.get(ip + '/User/getClinicsForHospital', {pHospitalID: $('#Hastane').val()}, function (dataJSON) {
                 $('#Klinik').html('');
 
                 for (var i = 0; i < dataJSON.length; i++) {
-                    $('#Klinik').append('<option value="' + dataJSON[i].KlinikID + '">' + dataJSON[i].KlinikAdi +
+                    $('#Klinik').append('<option value="' + dataJSON[i].ID + '">' + dataJSON[i].Name +
                             '</option>');
                 }
             }, "jsonp");
@@ -144,16 +173,26 @@
                 alert('TC Kimlik numaranız doğru değil.');
             }
             else {
-                $.post('uyeol.aspx', {A: $('#tcNo').val(), B: $('#adSoyad').val(), C: $('#Mail').val(),
-                    D: $('#Hastane').val(), E: $('#Klinik').val(), F: $('#Sifre').val()}, function (dataJSON) {
+                $.post(ip + '/User/registerUser', {SSN: $('#tcNo').val(), Name: $('#Adi').val(), Surname:
+                        $('#Soyadi').val(), Email: $('#Mail').val(), ProvinceID: $('#uzmanlikAlani').val(),
+                    DoctorRoleID: $('#Unvan').val(),
+                    ClinicID: $('#Klinik').val(), Password: $('#Sifre').val()}, function
+                        (dataJSON) {
 
-                    if (dataJSON.success == true) {
+                    if (dataJSON.success == -1) {
+                        alert('Belirttiğiniz TC. Kimlik numarası sistemimizde kayıtlı.');
+                    }
+                    else if(dataJSON.success == 0)
+                    {
+                        alert('Teknik bir hata gerçekleşti. Daha sonra tekrar deneyiniz.');
+                    }
+                    else {
+                        $('#kullaniciAdi').val($('#tcNo').val());
+                        $('#kullaniciSifresi').val($('#Sifre').val());
+
                         alert('Kaydınız gerçekleşti.');
 
                         $('#Iptal').click();
-                    }
-                    else {
-                        alert(dataJSON.Message);
                     }
                 }, "jsonp");
             }
