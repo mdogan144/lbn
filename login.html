@@ -87,13 +87,14 @@
         }
         else {
             if ($('#kullaniciAdi').val() != '' && $('#kullaniciSifresi').val() != '') {
-                $.post(ip + '/User/', {A: $('#kullaniciAdi').val(), B: $('#kullaniciSifresi').val()},
+                $.post(ip + '/User/LoginUser', {pSSN: $('#kullaniciAdi').val(),
+                            pPassword: $('#kullaniciSifresi').val()},
                         function (dataJSON) {
                             if (dataJSON.success == 'true') {
                                 window.location.href = 'index.html';
                             }
                             else {
-                                alert(dataJSON.Message);
+                                alert("Kullanıcı adınız veya şifreniz hatalıdır.");
                             }
                         }, "jsonp");
             }
