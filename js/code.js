@@ -83,7 +83,7 @@ var swiperParent = new Swiper('.swiper-parent', {
             $('#header').animate({'top': '-100px'}, 400);
         }
 
-        console.log(swiperParent.activeIndex);
+        //console.log(swiperParent.activeIndex);
 
         if (swiperParent.activeIndex == 1) { // Operasyon Ekle
             if ($('#kullanilanTeknoloji').html() == '') {
